@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://adnanqureshi2810.github.io/sitemap.xml

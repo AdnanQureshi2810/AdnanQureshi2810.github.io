@@ -1,0 +1,48 @@
+{
+  "works": [
+    {
+      "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
+      "year": "2025",
+      "venue": "Nature Aging",
+      "doi": "10.1038/s43587-025-00957-4",
+      "put_code": 192681785
+    },
+    {
+      "title": "A RAPID MICROFLUIDIC IN VIVO BIOASSAY FOR SCREENING FUNCTIONAL INGREDIENTS FOR IMPROVING GUT HEALTH",
+      "year": "2024",
+      "venue": "",
+      "doi": "",
+      "put_code": 186805914
+    },
+    {
+      "title": "On the offense and defense: mitochondrial recovery programs amidst targeted pathogenic assault",
+      "year": "2021",
+      "venue": "The FEBS Journal",
+      "doi": "10.1111/febs.16126",
+      "put_code": 114040802
+    },
+    {
+      "title": "A nematode-derived, mitochondrial stress signaling-regulated peptide exhibits broad antibacterial activity",
+      "year": "2021",
+      "venue": "Biology Open",
+      "doi": "10.1242/bio.058613",
+      "put_code": 114040805
+    },
+    {
+      "title": "A pathogen branched-chain amino acid catabolic pathway subverts host survival by impairing energy metabolism and the mitochondrial UPR",
+      "year": "2020",
+      "venue": "PLOS Pathogens",
+      "doi": "10.1371/journal.ppat.1008918",
+      "put_code": 81294799
+    },
+    {
+      "title": "The mitochondrial unfolded protein response: Signaling from the powerhouse",
+      "year": "2017",
+      "venue": "Journal of Biological Chemistry",
+      "doi": "10.1074/jbc.r117.791061",
+      "put_code": 61405785
+    }
+  ],
+  "total": 6,
+  "fetched_at": "2026-03-15T23:51:34.987581Z"
+}

@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "citations": 249,
+    "h_index": 5,
+    "i10_index": 3
+  },
+  "articles": [
+    {
+      "title": "The mitochondrial unfolded protein response: Signaling from the powerhouse",
+      "authors": "MA Qureshi, CM Haynes, MW Pellegrino",
+      "venue": "Journal of Biological Chemistry 292 (33), 13500-13506, 2017",
+      "year": "2017",
+      "citations": 176,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:u5HHmVD_uO8C"
+    },
+    {
+      "title": "A pathogen branched-chain amino acid catabolic pathway subverts host survival by impairing energy metabolism and the mitochondrial UPR",
+      "authors": "SA Mahmud, MA Qureshi, M Sapkota, MW Pellegrino",
+      "venue": "PLoS pathogens 16 (9), e1008918, 2020",
+      "year": "2020",
+      "citations": 46,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:d1gkVwhDpl0C"
+    },
+    {
+      "title": "On the offense and defense: mitochondrial recovery programs amidst targeted pathogenic assault",
+      "authors": "SA Mahmud, MA Qureshi, MW Pellegrino",
+      "venue": "The FEBS journal 289 (22), 7014-7037, 2022",
+      "year": "2022",
+      "citations": 13,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:qjMakFHDy7sC"
+    },
+    {
+      "title": "A nematode-derived, mitochondrial stress signaling-regulated peptide exhibits broad antibacterial activity",
+      "authors": "M Sapkota, M Adnan Qureshi, S Arif Mahmud, Y Balikosa, C Nguyen, ...",
+      "venue": "Biology Open 10 (5), bio058613, 2021",
+      "year": "2021",
+      "citations": 8,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:2osOgNQ5qMEC"
+    },
+    {
+      "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
+      "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
+      "venue": "Nature Aging 5 (10), 2003-2021, 2025",
+      "year": "2025",
+      "citations": 5,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
+    },
+    {
+      "title": "Insights into the role and regulation of the mitochondrial unfolded protein response during pathogen infection",
+      "authors": "MAMH Qureshi",
+      "venue": "The University of Texas at Arlington, 2021",
+      "year": "2021",
+      "citations": 1,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:UeHWp8X0CEIC"
+    },
+    {
+      "title": "Evaluation of Reducose® in C. elegans: Exploring Multifaceted Health Benefits Using an AI-Assisted Microfluidic Platform",
+      "authors": "M Lane, H Edwards, A Qureshi, BA Davis, S Vanapalli, A Gallagher",
+      "venue": "Current Developments in Nutrition 9, 2025",
+      "year": "2025",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:IjCSPb-OGe4C"
+    },
+    {
+      "title": "BioSeq: A molecular intelligence platform based on organism-on-chip technology for bridging data gaps between C. elegans and Humans",
+      "authors": "H Edwards, A Qureshi, M Rahman, T Chiriboga, A Chittiboyina, I Khan, ...",
+      "venue": "",
+      "year": "2025",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:zYLM7Y9cAGgC"
+    },
+    {
+      "title": "Identification and characterization of hydrocarbon degrading bacteria and fungi",
+      "authors": "MA Qureshi, S N. R., MR Kumar, JW OSBORNE",
+      "venue": "Asian Journal of Microbiology, Biotechnology & Environmental Sciences Paper …, 2013",
+      "year": "2013",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:u-x6o8ySG0sC"
+    },
+    {
+      "title": "Evaluation of the Toxicity of Produced Water Chemicals Using Nematode-Based Bioassays",
+      "authors": "M Rahman, AM Qureshi, M Rakowska, DD Reible, SA Vanapalli, ...",
+      "venue": "SETAC North America 45th Annual Meeting, 0",
+      "year": "",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:LkGwnXOMwfcC"
+    },
+    {
+      "title": "Propionibacterium freudenreichii P. UF1® Reduces Fat Accumulation in Caenorhabditis elegans",
+      "authors": "R Jäger, M Purpura, KL Harman, MA Qureshi, SA Vanapalli, DS Patel",
+      "venue": "",
+      "year": "",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:Tyk-4Ss8FVUC"
+    },
+    {
+      "title": "Whole animal in vivo screening for small molecule inhibitors of the mitochondrial unfolded protein response",
+      "authors": "M Amin, S Mahmud, MA Qureshi, J Dowgielewicz, M Pellegrino",
+      "venue": "",
+      "year": "",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
+    }
+  ],
+  "fetched_at": "2026-03-15T23:29:53.827593Z"
+}
