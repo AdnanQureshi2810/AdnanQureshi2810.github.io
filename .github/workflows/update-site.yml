@@ -1,5 +1,6 @@
 name: Update Site Data
 
+# Refreshes Scholar/ORCID data and rebuilds index.html from template.
 on:
   # Run every Sunday at 6am UTC
   schedule:
