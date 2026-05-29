@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G — Synthesis (Dark · Glass · Bold)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #08070d;
+  --bg-2: #0f0e15;
+  --border: rgba(255,255,255,.08);
+  --border-2: rgba(255,255,255,.14);
+  --glass: rgba(255,255,255,.045);
+  --glass-strong: rgba(255,255,255,.08);
+  --text: #ededf2;
+  --text-dim: #8a8898;
+  --text-dimmer: #5a586a;
+  --violet: #a78bfa;
+  --violet-2: #c084fc;
+  --cyan: #22d3ee;
+  --emerald: #34d399;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+::selection { background: var(--violet); color: var(--bg); }
+
+/* ── Background layers (from A) ─────────────────── */
+.aurora {
+  position: fixed; inset: -30%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(167,139,250,.22), transparent 45%),
+    radial-gradient(ellipse at 80% 20%, rgba(34,211,238,.14), transparent 45%),
+    radial-gradient(ellipse at 60% 80%, rgba(167,139,250,.12), transparent 55%);
+  animation: drift 22s ease-in-out infinite;
+  filter: blur(20px);
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(3%, -3%) scale(1.05); }
+}
+.dots {
+  position: fixed; inset: 0; z-index: 0; opacity: .35; pointer-events: none;
+  background-image: radial-gradient(circle, #2a2737 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+}
+.cursor-glow {
+  position: fixed; width: 600px; height: 600px; border-radius: 50%;
+  pointer-events: none; z-index: 0; transform: translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(167,139,250,.08), transparent 60%);
+  transition: opacity .3s;
+}
+main { position: relative; z-index: 1; }
+
+/* ── Mockup tag ─────────────────── */
+.mockup-nav {
+  position: fixed; top: 16px; left: 16px; z-index: 100;
+  padding: 8px 14px; background: var(--glass); backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border-2); border-radius: 999px;
+  font-size: 12px; color: var(--text-dim); text-decoration: none;
+}
+.mockup-nav:hover { color: var(--text); border-color: var(--violet); }
+
+/* ── Glass header pill (from F) ─────────────────── */
+header {
+  position: sticky; top: 16px; z-index: 50;
+  max-width: 1200px; margin: 16px auto 0; padding: 12px 22px;
+  background: var(--glass); backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-2); border-radius: 999px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-weight: 800; letter-spacing: -.02em; font-size: 15px;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.nav-links { display: flex; gap: 24px; font-size: 13px; color: var(--text-dim); }
+.nav-links a { color: inherit; text-decoration: none; transition: color .2s; position: relative; padding: 4px 0; }
+.nav-links a::after { content: ""; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--violet), var(--cyan)); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  padding: 8px 18px; background: var(--text); color: var(--bg);
+  border-radius: 999px; font-weight: 600; font-size: 13px;
+  text-decoration: none; transition: transform .2s, box-shadow .2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(167,139,250,.35); }
+
+/* ── Container ─────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* ── Hero (bold + dark) ─────────────────── */
+.hero { padding: 120px 32px 64px; max-width: 1200px; margin: 0 auto; }
+.hero .badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; background: var(--glass); backdrop-filter: blur(10px);
+  border: 1px solid var(--border-2); border-radius: 999px;
+  font-size: 12px; color: var(--text-dim); margin-bottom: 32px;
+}
+.hero .badge .live { width: 8px; height: 8px; background: var(--emerald); border-radius: 50%; box-shadow: 0 0 12px var(--emerald); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .5; } }
+
+.hero h1 {
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  font-weight: 900; line-height: .9; letter-spacing: -.05em;
+  margin-bottom: 40px;
+  background: linear-gradient(180deg, #fff 30%, #888);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero h1 .word { display: inline-block; transition: transform .35s ease; cursor: default; }
+.hero h1 .word:hover { transform: rotate(-2deg) scale(1.03); }
+.hero h1 .highlight {
+  display: inline-block; padding: 0 .15em;
+  background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%);
+  background-size: 200% 200%;
+  animation: shift 6s ease infinite;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  position: relative;
+}
+.hero h1 .highlight::before {
+  content: ""; position: absolute; inset: -2px -.1em; z-index: -1;
+  background: linear-gradient(135deg, rgba(167,139,250,.18), rgba(34,211,238,.12));
+  border-radius: 8px; transform: rotate(-1deg);
+}
+@keyframes shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+.hero-sub {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 48px;
+  padding-top: 40px; border-top: 1px solid var(--border);
+}
+.hero-sub .label { font-size: 11px; text-transform: uppercase; letter-spacing: .2em; font-weight: 700; color: var(--text-dim); margin-bottom: 12px; }
+.hero-sub p { font-size: 17px; line-height: 1.55; color: var(--text); font-weight: 400; max-width: 460px; }
+
+.hero-actions { display: flex; gap: 12px; margin-top: 40px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: transform .2s, box-shadow .2s, background .2s; }
+.btn-primary { background: var(--text); color: var(--bg); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(167,139,250,.4); }
+.btn-ghost { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--border-2); color: var(--text); }
+.btn-ghost:hover { background: var(--glass-strong); border-color: var(--violet); }
+
+/* ── Marquee (from C, dark-themed) ─────────────────── */
+.marquee {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  overflow: hidden; padding: 28px 0; margin: 40px 0; background: rgba(0,0,0,.2);
+}
+.marquee-track {
+  display: flex; gap: 60px; white-space: nowrap;
+  animation: scroll 32s linear infinite; font-size: 28px; font-weight: 800; letter-spacing: -.02em;
+  background: linear-gradient(180deg, #fff, #777);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.marquee-track span { display: inline-flex; align-items: center; gap: 60px; }
+.marquee-track .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  box-shadow: 0 0 12px rgba(167,139,250,.5);
+  display: inline-block; -webkit-text-fill-color: initial;
+}
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── Section primitives ─────────────────── */
+.section { padding: 100px 32px 60px; max-width: 1200px; margin: 0 auto; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; text-transform: uppercase; letter-spacing: .2em;
+  color: var(--text-dim); margin-bottom: 16px; font-weight: 600;
+}
+.section-eyebrow::before { content: ""; width: 24px; height: 1px; background: linear-gradient(90deg, var(--violet), var(--cyan)); }
+.section-h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800; line-height: .98; letter-spacing: -.04em; margin-bottom: 56px;
+}
+.section-h2 em { font-style: normal; background: linear-gradient(135deg, var(--violet), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ── Research: 3 equal glass cards ─────────────────── */
+.research-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.r-card {
+  background: var(--glass); backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 32px; position: relative; overflow: hidden;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .25s, box-shadow .35s;
+  opacity: 0; transform: translateY(20px);
+}
+.r-card.visible { opacity: 1; transform: translateY(0); }
+.r-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(167,139,250,.1), transparent 50%);
+  opacity: 0; transition: opacity .3s;
+}
+.r-card:hover::before { opacity: 1; }
+.r-card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,.35); box-shadow: 0 24px 60px rgba(167,139,250,.15); }
+.r-card .icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(167,139,250,.18), rgba(34,211,238,.08));
+  border: 1px solid var(--border-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--violet); font-size: 22px;
+  margin-bottom: 24px;
+}
+.r-card h3 { font-size: 22px; font-weight: 700; letter-spacing: -.015em; line-height: 1.2; margin-bottom: 12px; }
+.r-card p { font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+
+/* ── Stats strip ─────────────────── */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  background: var(--glass); backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 36px 0; margin-top: 16px;
+}
+.stat { text-align: center; border-right: 1px solid var(--border); padding: 0 20px; }
+.stat:last-child { border-right: none; }
+.stat .num {
+  font-size: 48px; font-weight: 800; letter-spacing: -.04em; line-height: 1;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stat .num .plus { font-size: .55em; vertical-align: super; opacity: .7; }
+.stat .label { font-size: 11px; text-transform: uppercase; letter-spacing: .15em; color: var(--text-dim); margin-top: 10px; font-weight: 600; }
+
+/* ── Publications: glass rows ─────────────────── */
+.pubs-panel {
+  background: var(--glass); backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 8px 32px;
+}
+.pub-row {
+  display: grid; grid-template-columns: 70px 1fr 200px 40px; gap: 24px; align-items: center;
+  padding: 22px 0; border-bottom: 1px solid var(--border);
+  transition: padding .25s ease;
+  cursor: pointer;
+}
+.pub-row:last-child { border-bottom: none; }
+.pub-row:hover { padding-left: 12px; padding-right: 12px; }
+.pub-row:hover .arrow { color: var(--violet); transform: translateX(4px); }
+.pub-row:hover .title { color: var(--text); }
+.pub-row .year {
+  font-family: 'Inter', monospace; font-size: 12px; color: var(--text-dim);
+  letter-spacing: .04em; font-weight: 600;
+}
+.pub-row .title { font-size: 15px; color: #d4d2dd; font-weight: 500; line-height: 1.4; transition: color .2s; }
+.pub-row .venue { font-size: 12px; color: var(--text-dimmer); font-style: italic; }
+.pub-row .arrow { color: var(--text-dim); transition: transform .25s, color .25s; text-align: right; font-size: 18px; }
+
+/* ── CTA panel ─────────────────── */
+.cta-panel {
+  background: linear-gradient(135deg, rgba(167,139,250,.14), rgba(34,211,238,.06));
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border-2); border-radius: 24px;
+  padding: 64px 48px; text-align: center; margin-top: 16px;
+  position: relative; overflow: hidden;
+}
+.cta-panel::before {
+  content: ""; position: absolute; inset: -50%; pointer-events: none;
+  background: radial-gradient(circle at 30% 50%, rgba(167,139,250,.15), transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(34,211,238,.12), transparent 50%);
+  animation: drift 18s ease-in-out infinite;
+}
+.cta-panel h2 {
+  position: relative;
+  font-size: clamp(2rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.05; margin-bottom: 20px;
+}
+.cta-panel h2 em { font-style: normal; background: linear-gradient(135deg, var(--violet), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cta-panel p { position: relative; font-size: 16px; color: var(--text-dim); max-width: 500px; margin: 0 auto 32px; line-height: 1.6; }
+.cta-panel .btn { position: relative; }
+
+footer { padding: 80px 32px 60px; text-align: center; color: var(--text-dim); font-size: 13px; border-top: 1px solid var(--border); margin-top: 80px; }
+
+@media (max-width: 800px) {
+  .research-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 32px 0; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+  .stat:nth-last-child(-n+2) { border-bottom: none; padding-bottom: 0; }
+  .pub-row { grid-template-columns: 60px 1fr 40px; }
+  .pub-row .venue { display: none; }
+  .hero-sub { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+<a href="index.html" class="mockup-nav">← All mockups · G · Synthesis</a>
+<div class="aurora"></div>
+<div class="dots"></div>
+<div class="cursor-glow" id="glow"></div>
+
+<main>
+<header>
+  <div class="nav-logo">Jane Doe</div>
+  <div class="nav-links">
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="#contact" class="nav-cta">Let's talk</a>
+</header>
+
+<section class="hero">
+  <div class="badge"><span class="live"></span> Open to new collaborations</div>
+  <h1>
+    <span class="word">Discovery,</span><br>
+    <span class="word"><span class="highlight">decoded.</span></span>
+  </h1>
+
+  <div class="hero-sub">
+    <div>
+      <div class="label">Who</div>
+      <p>Dr. Jane Doe — Discovery Scientist & Computational Biologist. Translating molecular complexity into market-ready insight for biotech and nutraceutical innovators.</p>
+    </div>
+    <div>
+      <div class="label">What I do</div>
+      <p>Turn 100,000 data points into a single decision. Then make sure it's the right one.</p>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <a href="#" class="btn btn-primary">Explore my work →</a>
+    <a href="#" class="btn btn-ghost">Read the research</a>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Pathway Analysis<span class="dot"></span>AI Pipelines<span class="dot"></span>Translational Biology<span class="dot"></span>Drug Discovery<span class="dot"></span>RNA-seq<span class="dot"></span>Mechanism of Action<span class="dot"></span></span>
+    <span>Pathway Analysis<span class="dot"></span>AI Pipelines<span class="dot"></span>Translational Biology<span class="dot"></span>Drug Discovery<span class="dot"></span>RNA-seq<span class="dot"></span>Mechanism of Action<span class="dot"></span></span>
+  </div>
+</div>
+
+<section id="research" class="section">
+  <div class="section-eyebrow">The work</div>
+  <h2 class="section-h2">Three areas of <em>active inquiry</em>.</h2>
+  <div class="research-grid">
+    <div class="r-card">
+      <div class="icon">◇</div>
+      <h3>Pathway Analysis</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div class="r-card">
+      <div class="icon">◈</div>
+      <h3>AI Discovery Pipelines</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute.</p>
+    </div>
+    <div class="r-card">
+      <div class="icon">◉</div>
+      <h3>Translational Biology</h3>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">55<span class="plus">+</span></div><div class="label">Client Projects</div></div>
+    <div class="stat"><div class="num">100<span class="plus">+</span></div><div class="label">Ingredients Studied</div></div>
+    <div class="stat"><div class="num">8</div><div class="label">Publications</div></div>
+    <div class="stat"><div class="num">2</div><div class="label">NIH Grants (PI)</div></div>
+  </div>
+</section>
+
+<section id="publications" class="section">
+  <div class="section-eyebrow">Recent work</div>
+  <h2 class="section-h2">Selected <em>publications</em>.</h2>
+  <div class="pubs-panel">
+    <div class="pub-row">
+      <span class="year">2026</span>
+      <span class="title">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod</span>
+      <span class="venue">Nature Aging, 6(2)</span>
+      <span class="arrow">→</span>
+    </div>
+    <div class="pub-row">
+      <span class="year">2025</span>
+      <span class="title">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span>
+      <span class="venue">PLOS Pathogens, 21(4)</span>
+      <span class="arrow">→</span>
+    </div>
+    <div class="pub-row">
+      <span class="year">2024</span>
+      <span class="title">Ut enim ad minim veniam quis nostrud exercitation ullamco laboris</span>
+      <span class="venue">Cell Reports, 43(7)</span>
+      <span class="arrow">→</span>
+    </div>
+    <div class="pub-row">
+      <span class="year">2022</span>
+      <span class="title">Duis aute irure dolor in reprehenderit in voluptate velit esse</span>
+      <span class="venue">FEBS Journal, 289(22)</span>
+      <span class="arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="cta-panel">
+    <h2>Have a hard problem? <em>Let's solve it.</em></h2>
+    <p>Looking for science-backed insights on your ingredient, or want to explore an AI-driven discovery collaboration? I'd love to hear from you.</p>
+    <a href="#" class="btn btn-primary">Get in touch →</a>
+  </div>
+</section>
+
+<footer>© 2026 Dr. Jane Doe · Mockup G — Synthesis (Dark · Glass · Bold)</footer>
+</main>
+
+<script>
+const glow = document.getElementById('glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
+// Cursor-following radial glow on research cards (no 3D tilt — cleaner)
+document.querySelectorAll('.r-card').forEach(t => {
+  t.addEventListener('mousemove', e => {
+    const r = t.getBoundingClientRect();
+    t.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100)+'%');
+    t.style.setProperty('--my', ((e.clientY - r.top)/r.height*100)+'%');
+  });
+});
+
+// Scroll-fade reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
+}, { threshold: .12 });
+document.querySelectorAll('.r-card').forEach(c => io.observe(c));
+</script>
+</body>
+</html>

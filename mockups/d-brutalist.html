@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D — Brutalist Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #fafaf7;
+  --text: #0a0a0a;
+  --text-dim: #555;
+  --accent: #d4322b;
+  --rule: #0a0a0a;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  background-image:
+    linear-gradient(to right, rgba(10,10,10,.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,10,10,.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  cursor: crosshair;
+}
+a, button, .clickable { cursor: pointer; }
+
+.mockup-nav {
+  position: fixed; top: 16px; left: 16px; z-index: 100;
+  padding: 6px 12px; background: var(--text); color: var(--bg);
+  font-size: 11px; text-decoration: none; font-family: 'JetBrains Mono', monospace;
+  border: 2px solid var(--text);
+}
+.mockup-nav:hover { background: var(--bg); color: var(--text); }
+
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+header {
+  padding: 32px 0 24px; border-bottom: 2px solid var(--text);
+  position: sticky; top: 0; background: var(--bg); z-index: 50;
+  background-image: linear-gradient(to right, rgba(10,10,10,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,10,.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.header-inner { display: flex; justify-content: space-between; align-items: baseline; }
+.site-title { font-size: 14px; font-weight: 700; }
+.site-title::before { content: "$ "; color: var(--accent); }
+nav { display: flex; gap: 20px; font-size: 12px; }
+nav a { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+nav a:hover { background: var(--text); color: var(--bg); }
+
+main { padding: 80px 0; }
+
+.h1 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 400; line-height: 1.05; letter-spacing: -.02em;
+  margin-bottom: 40px;
+  max-width: 800px;
+}
+.h1 em { font-style: italic; }
+.h1 .term { font-family: 'JetBrains Mono', monospace; font-size: .55em; vertical-align: super; background: var(--text); color: var(--bg); padding: 2px 6px; }
+
+.meta-block {
+  border: 2px solid var(--text); padding: 20px;
+  margin-bottom: 48px; background: rgba(255,255,255,.5);
+}
+.meta-block dl { display: grid; grid-template-columns: 140px 1fr; gap: 8px 16px; }
+.meta-block dt { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; }
+.meta-block dd { font-size: 13px; }
+
+.lede {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 22px; line-height: 1.5; max-width: 720px; margin-bottom: 64px;
+}
+.lede::first-letter { font-weight: 600; font-size: 1.1em; }
+
+section { padding: 64px 0; border-top: 2px solid var(--text); }
+.section-h {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  text-transform: uppercase; letter-spacing: .1em; font-weight: 700;
+  margin-bottom: 32px;
+}
+.section-h::before { content: "## "; color: var(--accent); }
+
+.research-table { width: 100%; border-collapse: collapse; }
+.research-table tr { border-bottom: 1px dashed var(--text); transition: background .15s ease; }
+.research-table tr:hover { background: var(--text); color: var(--bg); }
+.research-table tr:hover .id { color: var(--accent); }
+.research-table tr:hover a { color: var(--accent); }
+.research-table td { padding: 16px 8px; vertical-align: top; }
+.research-table .id { font-weight: 700; width: 60px; color: var(--text); font-size: 12px; }
+.research-table .title { font-family: 'Newsreader', serif; font-size: 22px; font-weight: 400; line-height: 1.2; }
+.research-table .desc { font-size: 12px; line-height: 1.55; max-width: 360px; }
+.research-table .arrow { width: 30px; text-align: right; font-weight: 700; }
+
+.ascii-art {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; line-height: 1.2; white-space: pre;
+  margin: 48px 0; color: var(--accent);
+}
+
+.pub-list { list-style: none; }
+.pub-list li {
+  display: grid; grid-template-columns: 60px 1fr; gap: 16px;
+  padding: 18px 0; border-bottom: 1px dotted var(--text);
+}
+.pub-list li:hover { background: rgba(212,50,43,.05); padding-left: 8px; padding-right: 8px; }
+.pub-list .year { font-weight: 700; font-size: 13px; }
+.pub-list .body { font-family: 'Newsreader', serif; font-size: 18px; line-height: 1.4; }
+.pub-list .body .venue { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); display: block; margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+.pub-list .body .venue a { color: var(--accent); text-decoration: none; }
+
+.footer-note { padding: 32px 0; border-top: 2px solid var(--text); font-size: 11px; color: var(--text-dim); }
+.footer-note::before { content: "// "; color: var(--accent); }
+
+.signal { width: 8px; height: 8px; background: var(--accent); display: inline-block; vertical-align: middle; margin-right: 6px; animation: blink 1.4s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+<a href="index.html" class="mockup-nav">[../ all mockups] D · brutalist</a>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <span class="site-title">jane-doe.research</span>
+      <nav>
+        <a href="#about">about</a>
+        <a href="#research">research</a>
+        <a href="#publications">pubs</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="h1">
+    Discovery is a <em>search problem</em>.<br>
+    The search space is biology<span class="term">[1]</span>.
+  </h1>
+
+  <div class="meta-block">
+    <dl>
+      <dt>Author</dt><dd>Dr. Jane Doe</dd>
+      <dt>Role</dt><dd>Discovery Scientist · Computational Biologist</dd>
+      <dt>Affiliation</dt><dd>Acme Bio, Cambridge, MA</dd>
+      <dt>Status</dt><dd><span class="signal"></span>open to collaborations</dd>
+      <dt>Last updated</dt><dd>2026-05-28</dd>
+    </dl>
+  </div>
+
+  <p class="lede">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+  <section id="research">
+    <div class="section-h">research areas</div>
+    <table class="research-table">
+      <tr>
+        <td class="id">[01]</td>
+        <td>
+          <div class="title">Pathway Analysis</div>
+          <div class="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</div>
+        </td>
+        <td class="arrow">→</td>
+      </tr>
+      <tr>
+        <td class="id">[02]</td>
+        <td>
+          <div class="title">AI Discovery Pipelines</div>
+          <div class="desc">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</div>
+        </td>
+        <td class="arrow">→</td>
+      </tr>
+      <tr>
+        <td class="id">[03]</td>
+        <td>
+          <div class="title">Translational Biology</div>
+          <div class="desc">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.</div>
+        </td>
+        <td class="arrow">→</td>
+      </tr>
+    </table>
+
+    <pre class="ascii-art">
+   raw-data ──┐
+              ├──> [pipeline] ──> [pathways] ──> insight
+   metadata ──┘
+    </pre>
+  </section>
+
+  <section id="publications">
+    <div class="section-h">selected publications</div>
+    <ol class="pub-list">
+      <li>
+        <span class="year">2026</span>
+        <div class="body">Lorem ipsum dolor sit amet consectetur adipiscing elit.<span class="venue">Nature Aging · <a href="#">10.1038/s.123</a></span></div>
+      </li>
+      <li>
+        <span class="year">2025</span>
+        <div class="body">Sed do eiusmod tempor incididunt ut labore et dolore magna.<span class="venue">PLOS Pathogens · <a href="#">10.1371/ppat.456</a></span></div>
+      </li>
+      <li>
+        <span class="year">2024</span>
+        <div class="body">Ut enim ad minim veniam quis nostrud exercitation ullamco.<span class="venue">Cell Reports · <a href="#">10.1016/c.789</a></span></div>
+      </li>
+      <li>
+        <span class="year">2022</span>
+        <div class="body">Duis aute irure dolor in reprehenderit in voluptate velit.<span class="venue">FEBS Journal · <a href="#">10.1111/febs.012</a></span></div>
+      </li>
+    </ol>
+  </section>
+
+  <div class="footer-note">end of document · last build: 2026-05-28 · jane-doe.research · mockup d — brutalist researcher</div>
+</main>
+</body>
+</html>

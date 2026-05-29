@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A — Linear Dark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #08070d;
+  --bg-2: #0f0e15;
+  --border: #1f1d2c;
+  --text: #ededf2;
+  --text-dim: #8a8898;
+  --accent: #a78bfa;
+  --accent-2: #22d3ee;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: "ss01";
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.mockup-nav {
+  position: fixed; top: 16px; left: 16px; z-index: 100;
+  padding: 8px 14px; background: rgba(15,14,21,.8); backdrop-filter: blur(10px);
+  border: 1px solid var(--border); border-radius: 999px;
+  font-size: 12px; color: var(--text-dim); text-decoration: none;
+}
+.mockup-nav:hover { color: var(--text); border-color: var(--accent); }
+.aurora {
+  position: fixed; inset: -30%; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(167,139,250,.22), transparent 45%),
+    radial-gradient(ellipse at 80% 20%, rgba(34,211,238,.14), transparent 45%),
+    radial-gradient(ellipse at 60% 80%, rgba(167,139,250,.12), transparent 55%);
+  animation: drift 22s ease-in-out infinite;
+  filter: blur(20px);
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(3%, -3%) scale(1.05); }
+}
+.dots {
+  position: fixed; inset: 0; z-index: 0; opacity: .35; pointer-events: none;
+  background-image: radial-gradient(circle, #2a2737 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 75%);
+}
+.cursor-glow {
+  position: fixed; width: 500px; height: 500px; border-radius: 50%;
+  pointer-events: none; z-index: 0; transform: translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(167,139,250,.07), transparent 60%);
+  transition: opacity .3s;
+}
+main { position: relative; z-index: 1; }
+header {
+  position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
+  background: rgba(8,7,13,.7); border-bottom: 1px solid var(--border);
+}
+.nav-inner { max-width: 1100px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-weight: 700; letter-spacing: -.02em; font-size: 14px; }
+.nav-links { display: flex; gap: 28px; font-size: 13px; color: var(--text-dim); }
+.nav-links a { color: inherit; text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+section { max-width: 1100px; margin: 0 auto; padding: 120px 32px; }
+.hero { padding-top: 160px; padding-bottom: 140px; }
+.hero .eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-dim); margin-bottom: 24px;
+  padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px;
+  background: rgba(15,14,21,.5);
+}
+.hero .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #22d3ee; box-shadow: 0 0 12px #22d3ee; }
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 700; line-height: .95; letter-spacing: -.045em; margin-bottom: 28px;
+  background: linear-gradient(180deg, #fff, #aaa);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero h1 .accent {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero p {
+  font-size: 18px; color: var(--text-dim); max-width: 600px; line-height: 1.6; margin-bottom: 40px;
+}
+.actions { display: flex; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 8px;
+  background: var(--text); color: var(--bg); font-weight: 500; font-size: 14px;
+  text-decoration: none; transition: transform .2s, box-shadow .2s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(167,139,250,.3); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { border-color: var(--accent); box-shadow: 0 0 30px rgba(167,139,250,.15); }
+.section-label { font-size: 12px; text-transform: uppercase; letter-spacing: .15em; color: var(--text-dim); margin-bottom: 16px; }
+.section-title { font-size: 36px; font-weight: 600; letter-spacing: -.03em; margin-bottom: 56px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 28px; background: linear-gradient(180deg, var(--bg-2), rgba(15,14,21,.4));
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; opacity: 0;
+  transform: translateY(20px); position: relative; overflow: hidden;
+}
+.card.visible { opacity: 1; transform: translateY(0); }
+.card::before {
+  content: ""; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(167,139,250,.08), transparent 40%);
+  opacity: 0; transition: opacity .3s;
+}
+.card:hover::before { opacity: 1; }
+.card:hover { transform: translateY(-4px); border-color: rgba(167,139,250,.4); box-shadow: 0 16px 40px rgba(167,139,250,.1); }
+.card-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, rgba(167,139,250,.15), rgba(34,211,238,.1)); display: flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 18px; font-size: 18px; }
+.card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.01em; position: relative; }
+.card p { font-size: 14px; color: var(--text-dim); line-height: 1.65; position: relative; }
+hr { border: none; border-top: 1px solid var(--border); margin: 0 auto; max-width: 1100px; }
+.pubs { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border); }
+.pub {
+  display: grid; grid-template-columns: 80px 1fr auto; gap: 24px; align-items: center;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+  transition: padding .25s ease;
+}
+.pub:hover { padding-left: 16px; padding-right: 16px; background: rgba(167,139,250,.04); }
+.pub .year { font-family: 'Inter', monospace; font-size: 13px; color: var(--text-dim); letter-spacing: .04em; }
+.pub .title { font-size: 15px; color: var(--text); font-weight: 500; }
+.pub .arrow { color: var(--text-dim); transition: transform .25s, color .25s; }
+.pub:hover .arrow { color: var(--accent); transform: translateX(4px); }
+footer { padding: 64px 32px; text-align: center; color: var(--text-dim); font-size: 13px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<a href="index.html" class="mockup-nav">← All mockups · A · Linear Dark</a>
+<div class="aurora"></div>
+<div class="dots"></div>
+<div class="cursor-glow" id="glow"></div>
+
+<main>
+<header>
+  <div class="nav-inner">
+    <div class="nav-logo">JD</div>
+    <div class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Open to new collaborations</div>
+  <h1>Discovery,<br><span class="accent">decoded.</span></h1>
+  <p>Dr. Jane Doe — Discovery Scientist & Computational Biologist. Translating molecular complexity into market-ready insight for biotech and nutraceutical innovators.</p>
+  <div class="actions">
+    <a href="#" class="btn">Explore my work →</a>
+    <a href="#" class="btn btn-ghost">Read the research</a>
+  </div>
+</section>
+
+<hr>
+
+<section id="research">
+  <div class="section-label">Research areas</div>
+  <h2 class="section-title">What I work on.</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">◇</div>
+      <h3>Pathway Analysis</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">◈</div>
+      <h3>AI Discovery Pipelines</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">◉</div>
+      <h3>Translational Biology</h3>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.</p>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section id="publications">
+  <div class="section-label">Recent work</div>
+  <h2 class="section-title">Selected publications.</h2>
+  <div class="pubs">
+    <div class="pub"><span class="year">2026</span><span class="title">Lorem ipsum dolor sit amet consectetur adipiscing elit</span><span class="arrow">→</span></div>
+    <div class="pub"><span class="year">2025</span><span class="title">Sed do eiusmod tempor incididunt ut labore et dolore magna</span><span class="arrow">→</span></div>
+    <div class="pub"><span class="year">2024</span><span class="title">Ut enim ad minim veniam quis nostrud exercitation ullamco</span><span class="arrow">→</span></div>
+    <div class="pub"><span class="year">2022</span><span class="title">Duis aute irure dolor in reprehenderit in voluptate velit</span><span class="arrow">→</span></div>
+  </div>
+</section>
+
+<footer>© 2026 Dr. Jane Doe · Mockup A — Linear Dark</footer>
+</main>
+
+<script>
+const glow = document.getElementById('glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+const io = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
+}, { threshold: .15 });
+document.querySelectorAll('.card').forEach(c => io.observe(c));
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100)+'%');
+    card.style.setProperty('--my', ((e.clientY - r.top)/r.height*100)+'%');
+  });
+});
+</script>
+</body>
+</html>

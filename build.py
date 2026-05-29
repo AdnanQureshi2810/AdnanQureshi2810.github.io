@@ -217,18 +217,47 @@ def format_authors(authors_str):
     return result
 
 
+def get_journal_cover(venue: str) -> tuple[str, str, str]:
+    """Map a venue string to (css_class, line1, line2) for the cover thumbnail."""
+    if not venue:
+        return ("generic", "Journal", "")
+    v = venue.lower()
+    if "nature aging" in v:
+        return ("nature-aging", "nature", "aging")
+    if "nature" in v:
+        return ("nature", "nature", "")
+    if "plos" in v or "ploS" in v.lower():
+        return ("plos", "PLOS", "")
+    if "febs" in v:
+        return ("febs", "FEBS", "JOURNAL")
+    if "biological chemistry" in v or v.startswith("jbc") or "journal of biological chemistry" in v:
+        return ("jbc", "JBC", "")
+    if "biology open" in v:
+        return ("bio-open", "Biology", "Open")
+    if "experimental gerontology" in v or "gerontology" in v:
+        return ("exp-gerontol", "Exp.", "Gerontol.")
+    if "cell reports" in v:
+        return ("cell", "Cell", "Reports")
+    if "cell" in v:
+        return ("cell", "Cell", "")
+    if "current developments in nutrition" in v or "nutrition" in v:
+        return ("cdn", "Current", "Nutrition")
+    return ("generic", "Journal", "")
+
+
 def build_metrics_html(stats, pub_count=8):
     """Build the metrics grid HTML."""
+    citations = stats.get("citations", 0) if stats else 0
     return f'''      <div class="metrics-row">
         <span class="metrics-row-label">Industry</span>
         <div class="metrics-grid metrics-grid--half">
           <div class="metric-card">
-            <span class="metric-number" data-target="55">0</span>
+            <span class="metric-number" data-target="55" data-suffix="+">0</span>
             <span class="metric-label">Client Projects</span>
           </div>
           <div class="metric-card">
-            <span class="metric-number" data-target="100">0</span>
-            <span class="metric-label">Ingredients Studied</span>
+            <span class="metric-number" data-target="13">0</span>
+            <span class="metric-label">Novel Assays</span>
           </div>
         </div>
       </div>
@@ -240,8 +269,21 @@ def build_metrics_html(stats, pub_count=8):
             <span class="metric-label">Publications</span>
           </div>
           <div class="metric-card">
+            <span class="metric-number" data-target="{citations}">0</span>
+            <span class="metric-label">Citations</span>
+          </div>
+        </div>
+      </div>
+      <div class="metrics-row">
+        <span class="metrics-row-label">Federal</span>
+        <div class="metrics-grid metrics-grid--half">
+          <div class="metric-card">
             <span class="metric-number" data-target="2">0</span>
-            <span class="metric-label">NIH Grants (PI)</span>
+            <span class="metric-label">NIH SBIRs (PI)</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-number" data-target="100" data-suffix="+">0</span>
+            <span class="metric-label">Ingredients Studied</span>
           </div>
         </div>
       </div>'''
@@ -295,7 +337,18 @@ def build_publications_html(articles):
 
         citation_text = f"{citations} citation{'s' if citations != 1 else ''}" if citations else ""
 
+        cover_class, cover_line1, cover_line2 = get_journal_cover(venue)
+        cover_mark = f"{cover_line1}<br>{cover_line2}" if cover_line2 else cover_line1
+        cover_issue = f"{year}" if year else ""
+        cover_html = (
+            f'<div class="pub-cover {cover_class}">'
+            f'<span class="cover-mark">{cover_mark}</span>'
+            f'<span class="cover-issue">{cover_issue}</span>'
+            f'</div>'
+        )
+
         items.append(f'''        <li class="pub-item">
+          {cover_html}
           <div class="pub-year">{year}</div>
           <div class="pub-content">
             <h3 class="pub-title">{pub["title"]}</h3>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C — Bold Expressive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --text-dim: #6b6b6b;
+  --accent: #c7f559;
+  --accent-2: #ff5c00;
+  --rule: #000000;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  overflow-x: hidden;
+}
+.mockup-nav {
+  position: fixed; top: 16px; left: 16px; z-index: 100;
+  padding: 8px 14px; background: var(--text); color: var(--bg);
+  border-radius: 999px; font-size: 12px; text-decoration: none; font-weight: 600;
+}
+.mockup-nav:hover { background: var(--accent); color: var(--text); }
+
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  border-bottom: 2px solid var(--text);
+}
+.nav-inner { max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-size: 22px; font-weight: 900; letter-spacing: -.03em; }
+.nav-logo::after { content: "."; color: var(--accent-2); }
+.nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 600; }
+.nav-links a { color: var(--text); text-decoration: none; padding: 6px 0; position: relative; }
+.nav-links a::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 8px; background: var(--accent); z-index: -1; transform: scaleX(0); transform-origin: left; transition: transform .25s; }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+section { max-width: 1280px; margin: 0 auto; padding: 80px 40px; }
+
+.hero {
+  padding-top: 80px; padding-bottom: 60px;
+}
+.hero h1 {
+  font-size: clamp(4rem, 13vw, 14rem);
+  font-weight: 900; line-height: .85; letter-spacing: -.06em;
+  margin-bottom: 32px;
+}
+.hero h1 .word { display: inline-block; transition: transform .3s ease, color .3s ease; cursor: default; }
+.hero h1 .word:hover { transform: rotate(-3deg) scale(1.05); color: var(--accent-2); }
+.hero h1 .highlight { background: var(--accent); padding: 0 .15em; display: inline-block; transform: rotate(-1deg); }
+.hero-sub {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 48px;
+  padding-top: 48px; border-top: 2px solid var(--text);
+}
+.hero-sub .label { font-size: 11px; text-transform: uppercase; letter-spacing: .2em; font-weight: 700; margin-bottom: 12px; }
+.hero-sub p { font-size: 20px; line-height: 1.4; max-width: 480px; font-weight: 500; }
+
+.marquee {
+  border-top: 2px solid var(--text); border-bottom: 2px solid var(--text);
+  overflow: hidden; padding: 24px 0; background: var(--text); color: var(--bg);
+}
+.marquee-track {
+  display: flex; gap: 60px; white-space: nowrap;
+  animation: scroll 30s linear infinite; font-size: 32px; font-weight: 900; letter-spacing: -.02em;
+}
+.marquee-track span { display: inline-flex; align-items: center; gap: 60px; }
+.marquee-track .dot { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; display: inline-block; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.research { padding: 120px 40px; }
+.section-eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: .2em; font-weight: 700; margin-bottom: 16px; }
+.section-eyebrow::before { content: "→ "; color: var(--accent-2); }
+.section-h2 { font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; line-height: .95; letter-spacing: -.04em; margin-bottom: 80px; }
+.section-h2 em { font-style: normal; background: var(--accent); padding: 0 .12em; }
+
+.research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 2px solid var(--text); }
+.research-card {
+  padding: 40px; border-right: 2px solid var(--text); position: relative; cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+  min-height: 360px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.research-card:last-child { border-right: none; }
+.research-card:hover { background: var(--text); color: var(--bg); }
+.research-card:hover .num { color: var(--accent); }
+.research-card:hover .arrow { transform: translate(8px,-8px); }
+.research-card .num { font-size: 80px; font-weight: 900; letter-spacing: -.05em; line-height: 1; transition: color .2s ease; }
+.research-card h3 { font-size: 32px; font-weight: 800; line-height: 1.05; letter-spacing: -.02em; margin-bottom: 16px; }
+.research-card p { font-size: 15px; line-height: 1.55; font-weight: 500; }
+.research-card .arrow { position: absolute; top: 32px; right: 32px; font-size: 24px; transition: transform .25s ease; }
+
+.cta-band {
+  background: var(--text); color: var(--bg); padding: 120px 40px;
+}
+.cta-inner { max-width: 1280px; margin: 0 auto; }
+.cta-band h2 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; line-height: .9; letter-spacing: -.05em; margin-bottom: 48px; }
+.cta-band h2 em { font-style: normal; color: var(--accent); }
+.cta-band .btn { display: inline-block; padding: 20px 36px; background: var(--accent); color: var(--text); font-weight: 800; font-size: 16px; text-decoration: none; border-radius: 0; transition: transform .2s, background .2s; text-transform: uppercase; letter-spacing: .05em; }
+.cta-band .btn:hover { transform: translate(-4px,-4px); box-shadow: 8px 8px 0 var(--accent-2); }
+
+footer { padding: 32px 40px; text-align: center; font-size: 13px; font-weight: 600; }
+</style>
+</head>
+<body>
+<a href="index.html" class="mockup-nav">← All mockups · C · Bold Expressive</a>
+
+<header>
+  <div class="nav-inner">
+    <div class="nav-logo">Jane Doe</div>
+    <div class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#publications">Pubs</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>
+    <span class="word">Decoded.</span><br>
+    <span class="word"><span class="highlight">Discovery</span></span><br>
+    <span class="word">at scale.</span>
+  </h1>
+  <div class="hero-sub">
+    <div>
+      <div class="label">Who</div>
+      <p>Dr. Jane Doe — Discovery Scientist & Computational Biologist. Building AI pipelines for translational research.</p>
+    </div>
+    <div>
+      <div class="label">What I do</div>
+      <p>Turn 100,000 data points into a single decision. Then make it the right one.</p>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Pathway Analysis<span class="dot"></span>AI Pipelines<span class="dot"></span>Translational Biology<span class="dot"></span>Drug Discovery<span class="dot"></span>RNA-seq<span class="dot"></span>Mechanism of Action<span class="dot"></span></span>
+    <span>Pathway Analysis<span class="dot"></span>AI Pipelines<span class="dot"></span>Translational Biology<span class="dot"></span>Drug Discovery<span class="dot"></span>RNA-seq<span class="dot"></span>Mechanism of Action<span class="dot"></span></span>
+  </div>
+</div>
+
+<section id="research" class="research">
+  <div class="section-eyebrow">Research</div>
+  <h2 class="section-h2">Three things I do <em>relentlessly</em>.</h2>
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="num">01</div>
+      <span class="arrow">↗</span>
+      <div>
+        <h3>Pathway Analysis</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+      </div>
+    </div>
+    <div class="research-card">
+      <div class="num">02</div>
+      <span class="arrow">↗</span>
+      <div>
+        <h3>AI Discovery Pipelines</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+      </div>
+    </div>
+    <div class="research-card">
+      <div class="num">03</div>
+      <span class="arrow">↗</span>
+      <div>
+        <h3>Translational Biology</h3>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <h2>Have a hard problem?<br><em>Let's solve it.</em></h2>
+    <a href="#contact" class="btn">Get in touch →</a>
+  </div>
+</section>
+
+<footer>© 2026 · Jane Doe · Mockup C — Bold Expressive</footer>
+</body>
+</html>
