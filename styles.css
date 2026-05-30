@@ -92,9 +92,11 @@ main { position: relative; z-index: 1; }
 .site-header {
   position: sticky; top: 16px; z-index: 50;
   max-width: var(--max-width); margin: 16px auto 0; padding: 12px 22px;
-  background: var(--glass); backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(10,9,16,.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--border-2); border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between; gap: 24px;
