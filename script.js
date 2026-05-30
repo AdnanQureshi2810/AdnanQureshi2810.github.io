@@ -112,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
   animateTargets.forEach(el => fadeObserver.observe(el));
 
   // ── Animated metric counters ───────────────────────────────
+  // HTML default = final value (SEO/no-JS safe). Reset to 0 only when about
+  // to enter the viewport, then animate up. If observer never fires (slow JS,
+  // tab not scrolled), the real value stays visible.
   const counters = document.querySelectorAll('.metric-number[data-target]');
   const counterObserver = new IntersectionObserver(
     entries => {
@@ -130,8 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function animateCounter(el, target) {
     const duration = 1600;
-    const start = performance.now();
     const suffix = el.dataset.suffix || '';
+    el.textContent = '0';  // reset just before animation
+    const start = performance.now();
     function update(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);

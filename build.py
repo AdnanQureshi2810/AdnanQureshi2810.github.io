@@ -202,18 +202,26 @@ def fetch_orcid_works():
 # ── HTML Builder ───────────────────────────────────────────────
 
 def format_authors(authors_str):
-    """Bold the author name in the authors string."""
+    """Bold the author name in the authors string.
+
+    Scholar truncates long author lists with "...", which can hide MA Qureshi
+    entirely (e.g. Nature Aging Civiletto et al. 2025). When that happens we
+    append an explicit credit since articles come from his profile by construction.
+    """
     if not authors_str:
         return ""
     result = authors_str
-    # Handle variations — use a single pass to avoid double-wrapping
-    # Match all name variations: MA Qureshi, M Adnan Qureshi, M. Adnan Qureshi,
-    # MAMH Qureshi, A Qureshi, AM Qureshi
     result = re.sub(
         r"(?:Mohammed\s+)?(?:MAMH|M\.?\s+Adnan\s+|M\.?\s*A\.?\s*|A\.?M\.?\s*|A\s+)Qureshi",
         "<strong>MA Qureshi</strong>",
         result,
     )
+    # Fallback: if Scholar truncated authors and "Qureshi" was lost, append it
+    if "Qureshi" not in result:
+        if result.rstrip().endswith("..."):
+            result = result.rstrip(". ,") + ", <strong>MA Qureshi</strong>, et al."
+        else:
+            result = result.rstrip(" ,") + ", <strong>MA Qureshi</strong>, et al."
     return result
 
 
@@ -246,17 +254,22 @@ def get_journal_cover(venue: str) -> tuple[str, str, str]:
 
 
 def build_metrics_html(stats, pub_count=8):
-    """Build the metrics grid HTML."""
+    """Build the metrics grid HTML.
+
+    Note: each metric-number's static content is its FINAL value (with suffix)
+    so crawlers and JS-disabled users see the real number. JS will reset to 0
+    and animate up only after IntersectionObserver fires.
+    """
     citations = stats.get("citations", 0) if stats else 0
     return f'''      <div class="metrics-row">
         <span class="metrics-row-label">Industry</span>
         <div class="metrics-grid metrics-grid--half">
           <div class="metric-card">
-            <span class="metric-number" data-target="55" data-suffix="+">0</span>
+            <span class="metric-number" data-target="55" data-suffix="+">55+</span>
             <span class="metric-label">Client Projects</span>
           </div>
           <div class="metric-card">
-            <span class="metric-number" data-target="13">0</span>
+            <span class="metric-number" data-target="13">13</span>
             <span class="metric-label">Novel Assays</span>
           </div>
         </div>
@@ -269,7 +282,7 @@ def build_metrics_html(stats, pub_count=8):
             <span class="metric-label">Publications</span>
           </div>
           <div class="metric-card">
-            <span class="metric-number" data-target="{citations}">0</span>
+            <span class="metric-number" data-target="{citations}">{citations}</span>
             <span class="metric-label">Citations</span>
           </div>
         </div>
@@ -278,11 +291,11 @@ def build_metrics_html(stats, pub_count=8):
         <span class="metrics-row-label">Federal</span>
         <div class="metrics-grid metrics-grid--half">
           <div class="metric-card">
-            <span class="metric-number" data-target="2">0</span>
+            <span class="metric-number" data-target="2">2</span>
             <span class="metric-label">NIH SBIRs (PI)</span>
           </div>
           <div class="metric-card">
-            <span class="metric-number" data-target="100" data-suffix="+">0</span>
+            <span class="metric-number" data-target="100" data-suffix="+">100+</span>
             <span class="metric-label">Ingredients Studied</span>
           </div>
         </div>
