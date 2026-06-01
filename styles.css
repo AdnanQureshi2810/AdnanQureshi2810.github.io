@@ -191,11 +191,11 @@ main { position: relative; z-index: 1; }
 /* ── Hero ───────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  padding: 120px 32px 64px;
+  padding: 56px 32px 64px;
   max-width: var(--max-width); margin: 0 auto;
 }
 .hero-bg {
-  position: absolute; inset: -120px -50vw 0 -50vw; z-index: 0;
+  position: absolute; inset: -64px -50vw 0 -50vw; z-index: 0;
   overflow: hidden; pointer-events: none;
 }
 .hero-video {
@@ -878,7 +878,7 @@ main { position: relative; z-index: 1; }
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .hero { padding: 100px 24px 48px; }
+  .hero { padding: 40px 24px 48px; }
   .hero-grid { grid-template-columns: 1fr; gap: 48px; }
   .hero-portrait { justify-content: center; }
   .portrait-frame { max-width: 280px; }
