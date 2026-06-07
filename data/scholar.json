@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 259,
+    "citations": 262,
     "h_index": 5,
     "i10_index": 3
   },
@@ -10,7 +10,7 @@
       "authors": "MA Qureshi, CM Haynes, MW Pellegrino",
       "venue": "Journal of Biological Chemistry 292 (33), 13500-13506, 2017",
       "year": "2017",
-      "citations": 178,
+      "citations": 179,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:u5HHmVD_uO8C"
     },
     {
@@ -18,7 +18,7 @@
       "authors": "SA Mahmud, MA Qureshi, M Sapkota, MW Pellegrino",
       "venue": "PLoS pathogens 16 (9), e1008918, 2020",
       "year": "2020",
-      "citations": 49,
+      "citations": 51,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:d1gkVwhDpl0C"
     },
     {
@@ -110,5 +110,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-05-31T08:34:17.962901Z"
+  "fetched_at": "2026-06-07T08:44:34.602525Z"
 }
