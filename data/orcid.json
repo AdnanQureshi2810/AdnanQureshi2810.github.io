@@ -1,7 +1,7 @@
 {
   "works": [
     {
-      "title": "Supplementation with bovine thymus extract improves survival, motility and stress resistance in C. elegans",
+      "title": "Supplementation with bovine thymus extract improves survival, motility and stress resistance in<i> C.</i><i> elegans</i>",
       "year": "2026",
       "venue": "Experimental Gerontology",
       "doi": "10.1016/J.EXGER.2026.113180",
@@ -51,5 +51,5 @@
     }
   ],
   "total": 7,
-  "fetched_at": "2026-06-14T09:18:21.202554Z"
+  "fetched_at": "2026-06-21T09:35:25.239422Z"
 }
