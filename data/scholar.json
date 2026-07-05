@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 266,
+    "citations": 270,
     "h_index": 5,
     "i10_index": 4
   },
@@ -18,8 +18,16 @@
       "authors": "SA Mahmud, MA Qureshi, M Sapkota, MW Pellegrino",
       "venue": "PLoS pathogens 16 (9), e1008918, 2020",
       "year": "2020",
-      "citations": 51,
+      "citations": 52,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:d1gkVwhDpl0C"
+    },
+    {
+      "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
+      "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
+      "venue": "Nature Aging 5 (10), 2003-2021, 2025",
+      "year": "2025",
+      "citations": 15,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
     },
     {
       "title": "On the offense and defense: mitochondrial recovery programs amidst targeted pathogenic assault",
@@ -28,14 +36,6 @@
       "year": "2022",
       "citations": 14,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:qjMakFHDy7sC"
-    },
-    {
-      "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
-      "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
-      "venue": "Nature Aging 5 (10), 2003-2021, 2025",
-      "year": "2025",
-      "citations": 12,
-      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
     },
     {
       "title": "A nematode-derived, mitochondrial stress signaling-regulated peptide exhibits broad antibacterial activity",
@@ -110,5 +110,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-06-28T08:40:12.794975Z"
+  "fetched_at": "2026-07-05T08:39:59.800160Z"
 }
