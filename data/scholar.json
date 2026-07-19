@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 270,
+    "citations": 269,
     "h_index": 5,
     "i10_index": 4
   },
@@ -18,7 +18,7 @@
       "authors": "SA Mahmud, MA Qureshi, M Sapkota, MW Pellegrino",
       "venue": "PLoS pathogens 16 (9), e1008918, 2020",
       "year": "2020",
-      "citations": 52,
+      "citations": 51,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:d1gkVwhDpl0C"
     },
     {
@@ -110,5 +110,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-07-12T07:59:29.595688Z"
+  "fetched_at": "2026-07-19T07:59:02.254462Z"
 }
