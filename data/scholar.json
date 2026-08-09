@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 270,
+    "citations": 267,
     "h_index": 5,
     "i10_index": 4
   },
@@ -10,7 +10,7 @@
       "authors": "MA Qureshi, CM Haynes, MW Pellegrino",
       "venue": "Journal of Biological Chemistry 292 (33), 13500-13506, 2017",
       "year": "2017",
-      "citations": 180,
+      "citations": 176,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:u5HHmVD_uO8C"
     },
     {
@@ -18,7 +18,7 @@
       "authors": "SA Mahmud, MA Qureshi, M Sapkota, MW Pellegrino",
       "venue": "PLoS pathogens 16 (9), e1008918, 2020",
       "year": "2020",
-      "citations": 52,
+      "citations": 51,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:d1gkVwhDpl0C"
     },
     {
@@ -26,7 +26,7 @@
       "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
       "venue": "Nature Aging 5 (10), 2003-2021, 2025",
       "year": "2025",
-      "citations": 15,
+      "citations": 17,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
     },
     {
@@ -52,6 +52,30 @@
       "year": "2021",
       "citations": 1,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:UeHWp8X0CEIC"
+    },
+    {
+      "title": "Functional and Mechanistic Characterization of MetaVantage™, a Novel Ingredient Combination for Metabolic Health Support",
+      "authors": "C Coleman, MA Qureshi, S Dutta, SA Vanapalli, SS Jonnalagadda",
+      "venue": "Current Developments in Nutrition 10, 2026",
+      "year": "2026",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:8k81kl-MbHgC"
+    },
+    {
+      "title": "Urolithin A Beyond Mitochondrial Health: Coordinated Metabolic and Neuromuscular Programs Supporting Functional Health",
+      "authors": "MA Qureshi, SA Vanapalli, S Dutta",
+      "venue": "Current Developments in Nutrition 10, 2026",
+      "year": "2026",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:0EnyYjriUFMC"
+    },
+    {
+      "title": "A Galloylated Catechin Dimer-Rich Green Tea Extract Engages Stress-Responsive and Epithelial Pathways to Promote Gut Integrity and Longevity in Caenorhabditis elegans",
+      "authors": "D Salter, MA Qureshi, M Rahman, JL Murphy, R Velamuri, J Fagan, ...",
+      "venue": "Current Developments in Nutrition 10, 2026",
+      "year": "2026",
+      "citations": null,
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:UebtZRa9Y70C"
     },
     {
       "title": "Supplementation with bovine thymus extract improves survival, motility and stress resistance in C. elegans",
@@ -110,5 +134,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-08-02T08:05:11.994450Z"
+  "fetched_at": "2026-08-09T06:37:42.677149Z"
 }
