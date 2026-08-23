@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 268,
+    "citations": 269,
     "h_index": 5,
     "i10_index": 4
   },
@@ -26,7 +26,7 @@
       "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
       "venue": "Nature Aging 5 (10), 2003-2021, 2025",
       "year": "2025",
-      "citations": 17,
+      "citations": 18,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
     },
     {
@@ -134,5 +134,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-08-16T06:21:56.934815Z"
+  "fetched_at": "2026-08-23T06:23:14.709387Z"
 }
