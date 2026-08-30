@@ -1,6 +1,6 @@
 {
   "stats": {
-    "citations": 269,
+    "citations": 272,
     "h_index": 5,
     "i10_index": 4
   },
@@ -10,7 +10,7 @@
       "authors": "MA Qureshi, CM Haynes, MW Pellegrino",
       "venue": "Journal of Biological Chemistry 292 (33), 13500-13506, 2017",
       "year": "2017",
-      "citations": 177,
+      "citations": 178,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:u5HHmVD_uO8C"
     },
     {
@@ -26,7 +26,7 @@
       "authors": "G Civiletto, D Brunetti, G Lizzo, K Muller, GE Jacot, I Daskalaki, F Sizzano, ...",
       "venue": "Nature Aging 5 (10), 2003-2021, 2025",
       "year": "2025",
-      "citations": 18,
+      "citations": 20,
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:roLk4NBRz8UC"
     },
     {
@@ -134,5 +134,5 @@
       "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=lhY8R2wAAAAJ&citation_for_view=lhY8R2wAAAAJ:9yKSN-GCB0IC"
     }
   ],
-  "fetched_at": "2026-08-23T06:23:14.709387Z"
+  "fetched_at": "2026-08-30T10:54:29.168344Z"
 }
