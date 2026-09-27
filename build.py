@@ -11,6 +11,7 @@ import sys
 import urllib.request
 import urllib.parse
 from datetime import datetime
+from html import escape
 
 
 # ── Configuration ──────────────────────────────────────────────
@@ -201,8 +202,8 @@ def fetch_orcid_works():
 
 # ── HTML Builder ───────────────────────────────────────────────
 
-def format_authors(authors_str):
-    """Bold the author name in the authors string.
+def format_authors(authors_str: str) -> str:
+    """Escape the authors string and bold the author name in it.
 
     Scholar truncates long author lists with "...", which can hide MA Qureshi
     entirely (e.g. Nature Aging Civiletto et al. 2025). When that happens we
@@ -210,7 +211,7 @@ def format_authors(authors_str):
     """
     if not authors_str:
         return ""
-    result = authors_str
+    result = escape(authors_str, quote=False)
     result = re.sub(
         r"(?:Mohammed\s+)?(?:MAMH|M\.?\s+Adnan\s+|M\.?\s*A\.?\s*|A\.?M\.?\s*|A\s+)Qureshi",
         "<strong>MA Qureshi</strong>",
@@ -228,7 +229,7 @@ def format_authors(authors_str):
 def get_journal_cover(venue: str) -> tuple[str, str, str]:
     """Map a venue string to (css_class, line1, line2) for the cover thumbnail."""
     if not venue:
-        return ("generic", "Journal", "")
+        return ("generic", "Article", "")
     v = venue.lower()
     if "nature aging" in v:
         return ("nature-aging", "nature", "aging")
@@ -250,60 +251,53 @@ def get_journal_cover(venue: str) -> tuple[str, str, str]:
         return ("cell", "Cell", "")
     if "current developments in nutrition" in v or "nutrition" in v:
         return ("cdn", "Current", "Nutrition")
-    return ("generic", "Journal", "")
+    return ("generic", "Article", "")
 
 
-def build_metrics_html(stats, pub_count=8):
-    """Build the metrics grid HTML.
+def build_metrics_html(stats: dict | None, pub_count: int = 8) -> str:
+    """Build the metrics strip HTML: three labelled groups of two numbers.
 
     Note: each metric-number's static content is its FINAL value (with suffix)
     so crawlers and JS-disabled users see the real number. JS will reset to 0
     and animate up only after IntersectionObserver fires.
     """
     citations = stats.get("citations", 0) if stats else 0
-    return f'''      <div class="metrics-row">
-        <span class="metrics-row-label">Industry</span>
-        <div class="metrics-grid metrics-grid--half">
-          <div class="metric-card">
-            <span class="metric-number" data-target="55" data-suffix="+">55+</span>
-            <span class="metric-label">Client Projects</span>
+    groups = [
+        ("Industry", [(55, "+", "Client Projects"), (13, "", "Novel Assays")]),
+        ("Academic", [(pub_count, "", "Publications"), (citations, "", "Citations")]),
+        ("Federal", [(2, "", "NIH SBIRs (PI)"), (100, "+", "Ingredients Studied")]),
+    ]
+
+    group_html = []
+    for label, metrics in groups:
+        cards = []
+        for value, suffix, name in metrics:
+            suffix_attr = f' data-suffix="{suffix}"' if suffix else ""
+            cards.append(f'''            <div class="metric-card">
+              <span class="metric-number" data-target="{value}"{suffix_attr}>{value}{suffix}</span>
+              <span class="metric-label">{name}</span>
+            </div>''')
+        cards_html = "\n".join(cards)
+        group_html.append(f'''        <div class="metric-group">
+          <span class="metric-group-label">{label}</span>
+          <div class="metric-group-items">
+{cards_html}
           </div>
-          <div class="metric-card">
-            <span class="metric-number" data-target="13">13</span>
-            <span class="metric-label">Novel Assays</span>
-          </div>
-        </div>
-      </div>
-      <div class="metrics-row">
-        <span class="metrics-row-label">Academic</span>
-        <div class="metrics-grid metrics-grid--half">
-          <div class="metric-card">
-            <span class="metric-number" data-target="{pub_count}">{pub_count}</span>
-            <span class="metric-label">Publications</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-number" data-target="{citations}">{citations}</span>
-            <span class="metric-label">Citations</span>
-          </div>
-        </div>
-      </div>
-      <div class="metrics-row">
-        <span class="metrics-row-label">Federal</span>
-        <div class="metrics-grid metrics-grid--half">
-          <div class="metric-card">
-            <span class="metric-number" data-target="2">2</span>
-            <span class="metric-label">NIH SBIRs (PI)</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-number" data-target="100" data-suffix="+">100+</span>
-            <span class="metric-label">Ingredients Studied</span>
-          </div>
-        </div>
+        </div>''')
+
+    groups_html = "\n".join(group_html)
+    return f'''      <div class="metrics-strip">
+{groups_html}
       </div>'''
 
 
-def build_publications_html(articles):
-    """Build the publications list HTML from Scholar data."""
+def build_publications_html(articles: list[dict]) -> str:
+    """Build the publications list HTML from Scholar data.
+
+    Linked rows use a "stretched link": the title anchor's ::after covers the
+    whole row, so the entire row is clickable without nesting block content
+    inside an <a>.
+    """
     # Filter out dissertations and articles without year
     SKIP_VENUES = ["university of texas", "dissertation", "thesis"]
     filtered = []
@@ -334,7 +328,7 @@ def build_publications_html(articles):
     for pub in top_articles:
         authors_html = format_authors(pub.get("authors", ""))
         venue = pub.get("venue", "")
-        year = pub.get("year", "")
+        year = escape(pub.get("year", ""), quote=False)
         citations = pub.get("citations") or 0
         link = pub.get("link", "")
 
@@ -344,11 +338,28 @@ def build_publications_html(articles):
         if "branched-chain amino acid" in title_lower and pub.get("year") == "2020":
             badge = ' <span class="pub-badge">Co-first author</span>'
 
-        doi_link = ""
+        title = escape(pub.get("title", ""), quote=False)
         if link:
-            doi_link = f'\n              <a href="{link}" target="_blank" rel="noopener" class="pub-doi">View</a>'
+            title_html = (
+                f'<a class="pub-link" href="{escape(link)}" target="_blank" rel="noopener">'
+                f'{title}<span class="sr-only"> (opens in a new tab)</span></a>'
+            )
+            item_class = "pub-item has-link"
+            arrow_html = '\n          <span class="pub-arrow" aria-hidden="true">↗</span>'
+        else:
+            title_html = title
+            item_class = "pub-item"
+            arrow_html = ""
 
-        citation_text = f"{citations} citation{'s' if citations != 1 else ''}" if citations else ""
+        venue_html = f'\n            <p class="pub-venue"><em>{escape(venue, quote=False)}</em></p>' if venue else ""
+
+        meta_html = ""
+        if citations:
+            citation_text = f"{citations} citation{'s' if citations != 1 else ''}"
+            meta_html = (
+                '\n            <div class="pub-meta">'
+                f'<span class="pub-citations">{citation_text}</span></div>'
+            )
 
         cover_class, cover_line1, cover_line2 = get_journal_cover(venue)
         cover_mark = f"{cover_line1}<br>{cover_line2}" if cover_line2 else cover_line1
@@ -360,17 +371,13 @@ def build_publications_html(articles):
             f'</div>'
         )
 
-        items.append(f'''        <li class="pub-item">
+        items.append(f'''        <li class="{item_class}">
           {cover_html}
           <div class="pub-year">{year}</div>
           <div class="pub-content">
-            <h3 class="pub-title">{pub["title"]}</h3>
-            <p class="pub-authors">{authors_html}{badge}</p>
-            <p class="pub-venue"><em>{venue}</em></p>
-            <div class="pub-meta">
-              <span class="pub-citations">{citation_text}</span>{doi_link}
-            </div>
-          </div>
+            <h3 class="pub-title">{title_html}</h3>
+            <p class="pub-authors">{authors_html}{badge}</p>{venue_html}{meta_html}
+          </div>{arrow_html}
         </li>''')
 
     return "\n".join(items)

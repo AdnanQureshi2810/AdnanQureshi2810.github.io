@@ -14,7 +14,10 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Mohammed Adnan Qureshi — Nutraceutical Scientist & AI-Powered Discovery Lead">
   <meta property="og:description" content="Nutraceutical scientist bridging mitochondrial biology, AI-powered discovery pipelines, and market strategy. 55+ client projects delivered. Published in Nature Aging.">
-  <meta property="og:image" content="https://adnanqureshi2810.github.io/assets/profile.png">
+  <meta property="og:image" content="https://adnanqureshi2810.github.io/assets/og-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mohammed Adnan Qureshi — Discovery, decoded.">
   <meta property="og:url" content="https://adnanqureshi2810.github.io">
   <meta property="og:site_name" content="Adnan Qureshi">
 
@@ -22,7 +25,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Mohammed Adnan Qureshi — Nutraceutical Scientist & AI-Powered Discovery Lead">
   <meta name="twitter:description" content="Nutraceutical scientist bridging mitochondrial biology, AI-powered discovery, and market strategy. 55+ client projects. Published in Nature Aging.">
-  <meta name="twitter:image" content="https://adnanqureshi2810.github.io/assets/profile.png">
+  <meta name="twitter:image" content="https://adnanqureshi2810.github.io/assets/og-card.jpg">
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -32,7 +35,7 @@
     "name": "Mohammed Adnan Qureshi",
     "alternateName": "Adnan Qureshi",
     "url": "https://adnanqureshi2810.github.io",
-    "image": "https://adnanqureshi2810.github.io/assets/profile.png",
+    "image": "https://adnanqureshi2810.github.io/assets/profile.jpg",
     "jobTitle": "Discovery Team Lead & Nutraceutical Scientist",
     "worksFor": {
       "@type": "Organization",
@@ -57,9 +60,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23050505'/><text x='16' y='22' text-anchor='middle' font-family='Playfair Display,Georgia,serif' font-size='12' font-weight='700' fill='%23a78bfa' letter-spacing='-0.5'>MAQ</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23050505'/><text x='16' y='24.5' text-anchor='middle' font-family='Georgia,serif' font-size='24' font-weight='700' fill='%23a78bfa'>Q</text></svg>">
+  <link rel="preload" as="image" href="assets/profile.webp" type="image/webp">
 </head>
 <body>
+  <a class="skip-link" href="#about">Skip to content</a>
+
   <!-- Background layers -->
   <div class="aurora" aria-hidden="true"></div>
   <div class="dots" aria-hidden="true"></div>
@@ -82,25 +88,25 @@
         <a href="#experience">Experience</a>
       </nav>
       <a href="#contact" class="nav-cta">Let's talk</a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-mobile">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="nav-mobile" id="nav-mobile" role="menu">
-      <a href="#about" role="menuitem">About</a>
-      <a href="#research" role="menuitem">Research</a>
-      <a href="#impact" role="menuitem">Impact</a>
-      <a href="#publications" role="menuitem">Publications</a>
-      <a href="#experience" role="menuitem">Experience</a>
-      <a href="#skills" role="menuitem">Skills</a>
-      <a href="#contact" role="menuitem">Contact</a>
-    </div>
+    <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#impact">Impact</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+      <video class="hero-video" muted loop playsinline preload="none" poster="assets/media/powder-hero-poster.jpg" data-autoplay>
         <source src="assets/media/powder-hero.mp4" type="video/mp4">
       </video>
       <div class="hero-tint"></div>
@@ -108,26 +114,30 @@
     </div>
     <div class="hero-grid">
       <div class="hero-text">
-        <div class="badge"><span class="live"></span> Open to new collaborations</div>
-        <h1 class="hero-name">
-          <span class="word">Discovery,</span><br>
-          <span class="word"><span class="highlight">decoded.</span></span>
+        <div class="badge hero-anim" style="--d:0"><span class="live"></span> Open to new collaborations</div>
+        <h1 class="hero-id hero-anim" style="--d:1">
+          <span class="hero-id-name">Mohammed Adnan Qureshi</span>
+          <span class="hero-id-role">PhD · Discovery Team Lead at NemaLife Inc.</span>
         </h1>
-        <div class="hero-sub">
+        <p class="hero-name">
+          <span class="word hero-anim" style="--d:2">Discovery,</span><br>
+          <span class="word hero-anim" style="--d:3"><span class="highlight">decoded.</span></span>
+        </p>
+        <div class="hero-sub hero-anim" style="--d:4">
           <div>
             <div class="label">Who</div>
-            <p>Mohammed Adnan Qureshi — PhD, Quantitative Biology. Discovery Team Lead at <strong>NemaLife Inc.</strong> I turn preclinical biology into commercial decisions for nutraceutical and functional-ingredient brands.</p>
+            <p>PhD in Quantitative Biology. I lead the discovery team at <strong>NemaLife Inc.</strong> and turn preclinical biology into commercial decisions for nutraceutical and functional-ingredient brands.</p>
           </div>
           <div>
             <div class="label">By the numbers</div>
             <p><strong>10+ years</strong> in molecular and aging biology · <strong>55+ client engagements</strong> · <strong>2 NIH SBIRs</strong> as PI · <em>Nature Aging</em> co-author.</p>
           </div>
         </div>
-        <div class="hero-actions">
+        <div class="hero-actions hero-anim" style="--d:5">
           <a href="#research" class="btn btn-primary magnetic">Explore my work →</a>
           <a href="#publications" class="btn btn-ghost magnetic">Read the research</a>
         </div>
-        <div class="hero-social">
+        <div class="hero-social hero-anim" style="--d:6">
           <a href="https://scholar.google.com/citations?user=lhY8R2wAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
           </a>
@@ -140,8 +150,11 @@
         </div>
       </div>
       <div class="hero-portrait">
-        <figure class="portrait-frame">
-          <img src="assets/profile.png" alt="Portrait of Mohammed Adnan Qureshi" loading="eager" width="400" height="500">
+        <figure class="portrait-frame hero-anim hero-anim--portrait" style="--d:3">
+          <picture>
+            <source srcset="assets/profile.webp" type="image/webp">
+            <img src="assets/profile.jpg" alt="Portrait of Mohammed Adnan Qureshi" loading="eager" fetchpriority="high" width="720" height="1052">
+          </picture>
           <figcaption class="portrait-tag"><span class="pulse"></span>Lubbock, TX</figcaption>
         </figure>
       </div>
@@ -235,9 +248,9 @@
         <div class="detail-card beyond-card">
           <div class="detail-label">Beyond the lab</div>
           <div class="beyond-icons">
-            <img src="assets/mufc-crest.png" alt="Manchester United" width="22" height="22">
-            <img src="assets/chess-knight.png" alt="Chess" width="22" height="22">
-            <img src="assets/pinwheel.png" alt="Design" width="22" height="22">
+            <img src="assets/mufc-crest.png" alt="" width="22" height="22" loading="lazy">
+            <img src="assets/chess-knight.png" alt="" width="22" height="22" loading="lazy">
+            <img src="assets/pinwheel.png" alt="" width="22" height="22" loading="lazy">
           </div>
           <p>Loyal <span class="beyond-highlight">Manchester United</span> supporter, occasional <span class="beyond-highlight">Chess</span> strategist, and endlessly opinionated about <span class="beyond-highlight">Design</span> — colors, fonts, and how things look matter more than most people think.</p>
         </div>
@@ -251,7 +264,7 @@
     <h2 class="section-h2">Three areas of <em>active inquiry</em>.</h2>
     <div class="research-grid">
       <article class="r-card with-video">
-        <video class="r-card-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/dried-flowers-poster.jpg" data-autoplay aria-hidden="true">
           <source src="assets/media/dried-flowers.mp4" type="video/mp4">
         </video>
         <div class="icon" aria-hidden="true">
@@ -261,7 +274,7 @@
         <p>Preclinical screening of botanicals, biotics, extracts, and functional ingredients. The job: find a defensible biological story — the one that earns a product its position on the shelf.</p>
       </article>
       <article class="r-card with-video">
-        <video class="r-card-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/particles-poster.jpg" data-autoplay aria-hidden="true">
           <source src="assets/media/particles.mp4" type="video/mp4">
         </video>
         <div class="icon" aria-hidden="true">
@@ -271,7 +284,7 @@
         <p><strong>BioSeq</strong> is the in-house pipeline I built — it turns <em>C. elegans</em> transcriptomic data into human-relevant outputs: health domains, candidate genes, pathways, and mechanism of action. Ingredient screen to decision support, compressed.</p>
       </article>
       <article class="r-card with-video">
-        <video class="r-card-video" autoplay muted loop playsinline preload="metadata" data-playback="1.4" aria-hidden="true">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/cellular-poster.jpg" data-autoplay data-playback="1.4" aria-hidden="true">
           <source src="assets/media/cellular.mp4" type="video/mp4">
         </video>
         <div class="icon" aria-hidden="true">
@@ -283,45 +296,47 @@
     </div>
 
     <!--METRICS_START-->
-    <div class="metrics-row">
-      <span class="metrics-row-label">Industry</span>
-      <div class="metrics-grid metrics-grid--half">
-        <div class="metric-card">
-          <span class="metric-number" data-target="55" data-suffix="+">55+</span>
-          <span class="metric-label">Client Projects</span>
+      <div class="metrics-strip">
+        <div class="metric-group">
+          <span class="metric-group-label">Industry</span>
+          <div class="metric-group-items">
+            <div class="metric-card">
+              <span class="metric-number" data-target="55" data-suffix="+">55+</span>
+              <span class="metric-label">Client Projects</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number" data-target="13">13</span>
+              <span class="metric-label">Novel Assays</span>
+            </div>
+          </div>
         </div>
-        <div class="metric-card">
-          <span class="metric-number" data-target="13">13</span>
-          <span class="metric-label">Novel Assays</span>
+        <div class="metric-group">
+          <span class="metric-group-label">Academic</span>
+          <div class="metric-group-items">
+            <div class="metric-card">
+              <span class="metric-number" data-target="9">9</span>
+              <span class="metric-label">Publications</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number" data-target="259">259</span>
+              <span class="metric-label">Citations</span>
+            </div>
+          </div>
+        </div>
+        <div class="metric-group">
+          <span class="metric-group-label">Federal</span>
+          <div class="metric-group-items">
+            <div class="metric-card">
+              <span class="metric-number" data-target="2">2</span>
+              <span class="metric-label">NIH SBIRs (PI)</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number" data-target="100" data-suffix="+">100+</span>
+              <span class="metric-label">Ingredients Studied</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="metrics-row">
-      <span class="metrics-row-label">Academic</span>
-      <div class="metrics-grid metrics-grid--half">
-        <div class="metric-card">
-          <span class="metric-number" data-target="9">9</span>
-          <span class="metric-label">Publications</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-number" data-target="256">256</span>
-          <span class="metric-label">Citations</span>
-        </div>
-      </div>
-    </div>
-    <div class="metrics-row">
-      <span class="metrics-row-label">Federal</span>
-      <div class="metrics-grid metrics-grid--half">
-        <div class="metric-card">
-          <span class="metric-number" data-target="2">2</span>
-          <span class="metric-label">NIH SBIRs (PI)</span>
-        </div>
-        <div class="metric-card">
-          <span class="metric-number" data-target="100" data-suffix="+">100+</span>
-          <span class="metric-label">Ingredients Studied</span>
-        </div>
-      </div>
-    </div>
     <!--METRICS_END-->
 
     <div class="grants-section">
@@ -346,43 +361,64 @@
     <div class="section-eyebrow">Outcomes</div>
     <h2 class="section-h2">Selected translational <em>impact</em>.</h2>
     <p class="impact-intro">Outcomes from industry partnerships and internal R&D programs at NemaLife. Specific client identities and proprietary details are omitted under NDA; the outcomes and methodologies below are disclosable.</p>
-    <div class="impact-grid">
-      <div class="impact-card">
-        <div class="impact-tag">Preclinical → Market</div>
-        <h3>Single-strain win drove a client product to commercial launch.</h3>
-        <p>Led preclinical efficacy screening of a multi-strain postbiotic formulation; identified one strain outperforming the proposed combination. Client redirected clinical strategy around the winner, completed the trial, and brought the ingredient to market.</p>
-      </div>
-      <div class="impact-card">
-        <div class="impact-tag">IP · Patent pending</div>
-        <h3>Co-architected a proprietary multi-compound combination asset.</h3>
-        <p>Screened a curated library of pro-longevity candidates and assembled a combination targeting cellular resilience, healthy longevity, and metabolic health. Asset is patent-pending and positioned for commercial partnering.</p>
-      </div>
-      <div class="impact-card">
-        <div class="impact-tag">New vertical</div>
-        <h3>Repositioned a legacy postbiotic from gut into musculoskeletal health.</h3>
-        <p>Uncovered gut-muscle axis activity through whole-organism transcriptomic profiling and healthspan assays. Client is now commercializing the ingredient in a new health vertical.</p>
-      </div>
-      <div class="impact-card">
-        <div class="impact-tag">Mechanistic differentiation</div>
-        <h3>Differentiated a novel-source omega fatty acid for a client patent filing.</h3>
-        <p>Generated mechanistic differentiation through whole-organism transcriptomics and pathway-level analysis (BioSeq platform). The data package supported the client's patent application.</p>
-      </div>
-      <div class="impact-card">
-        <div class="impact-tag">Peer-reviewed publication</div>
-        <h3>Characterized mechanism of bovine thymus extract — published 2026.</h3>
-        <p>Co-authored a peer-reviewed study (<em>Experimental Gerontology</em>) showing the extract improves survival, motility, and oxidative-stress resistance in <em>C. elegans</em>. Data informed the client's product positioning and commercialization narrative.</p>
-      </div>
-      <div class="impact-card">
-        <div class="impact-tag">Strain portfolio</div>
-        <h3>Surfaced new clinical indications across a biotics company's strain portfolio.</h3>
-        <p>Designed and ran preclinical screens that surfaced new health domains for proprietary strains. Outputs informed strain positioning and the design of follow-on clinical trials.</p>
-      </div>
-    </div>
+    <ol class="impact-list">
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">01</span>
+        <div class="impact-body">
+          <div class="impact-tag">Preclinical → Market</div>
+          <h3>Single-strain win drove a client product to commercial launch.</h3>
+          <p>Led preclinical efficacy screening of a multi-strain postbiotic formulation; identified one strain outperforming the proposed combination. Client redirected clinical strategy around the winner, completed the trial, and brought the ingredient to market.</p>
+        </div>
+      </li>
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">02</span>
+        <div class="impact-body">
+          <div class="impact-tag">IP · Patent pending</div>
+          <h3>Co-architected a proprietary multi-compound combination asset.</h3>
+          <p>Screened a curated library of pro-longevity candidates and assembled a combination targeting cellular resilience, healthy longevity, and metabolic health. Asset is patent-pending and positioned for commercial partnering.</p>
+        </div>
+      </li>
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">03</span>
+        <div class="impact-body">
+          <div class="impact-tag">New vertical</div>
+          <h3>Repositioned a legacy postbiotic from gut into musculoskeletal health.</h3>
+          <p>Uncovered gut-muscle axis activity through whole-organism transcriptomic profiling and healthspan assays. Client is now commercializing the ingredient in a new health vertical.</p>
+        </div>
+      </li>
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">04</span>
+        <div class="impact-body">
+          <div class="impact-tag">Mechanistic differentiation</div>
+          <h3>Differentiated a novel-source omega fatty acid for a client patent filing.</h3>
+          <p>Generated mechanistic differentiation through whole-organism transcriptomics and pathway-level analysis (BioSeq platform). The data package supported the client's patent application.</p>
+        </div>
+      </li>
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">05</span>
+        <div class="impact-body">
+          <div class="impact-tag">Peer-reviewed publication</div>
+          <h3>Characterized mechanism of bovine thymus extract — published 2026.</h3>
+          <p>Co-authored a peer-reviewed study (<em>Experimental Gerontology</em>) showing the extract improves survival, motility, and oxidative-stress resistance in <em>C. elegans</em>. Data informed the client's product positioning and commercialization narrative.</p>
+        </div>
+      </li>
+      <li class="impact-item">
+        <span class="impact-num" aria-hidden="true">06</span>
+        <div class="impact-body">
+          <div class="impact-tag">Strain portfolio</div>
+          <h3>Surfaced new clinical indications across a biotics company's strain portfolio.</h3>
+          <p>Designed and ran preclinical screens that surfaced new health domains for proprietary strains. Outputs informed strain positioning and the design of follow-on clinical trials.</p>
+        </div>
+      </li>
+    </ol>
   </section>
 
   <!-- C. elegans full-bleed divider -->
-  <figure class="divider-image" aria-label="C. elegans cell nuclei stained with DAPI under fluorescence microscopy">
-    <img src="assets/media/celegans-dapi.jpg" alt="C. elegans cell nuclei stained with DAPI under fluorescence microscopy">
+  <figure class="divider-image">
+    <picture>
+      <source srcset="assets/media/celegans-dapi.webp" type="image/webp">
+      <img src="assets/media/celegans-dapi.jpg" alt="C. elegans cell nuclei stained with DAPI under fluorescence microscopy" loading="lazy" decoding="async" width="2040" height="1536">
+    </picture>
     <figcaption class="divider-caption">
       <div class="text">The model organism behind <em>the data.</em></div>
       <div class="credit">C. elegans DAPI<br>HoPo · CC BY-SA 3.0</div>
@@ -458,7 +494,7 @@
           </div>
         </div>
       </div>
-      <div class="timeline-col">
+      <div class="timeline-col timeline-col--sticky">
         <h3 class="timeline-heading">Education</h3>
         <div class="timeline">
           <div class="timeline-item">
@@ -489,12 +525,14 @@
   <section class="section" id="skills">
     <div class="section-eyebrow">Capabilities</div>
     <h2 class="section-h2">Skills & <em>expertise</em>.</h2>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+    <div class="skills-list">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
         </div>
-        <h3>Discovery Science</h3>
+          <h3>Discovery Science</h3>
+        </div>
         <ul class="skill-tags">
           <li>Nutraceutical Screening</li>
           <li>Botanicals & Biotics</li>
@@ -503,11 +541,13 @@
           <li>Preclinical Translation</li>
         </ul>
       </div>
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
         </div>
-        <h3>AI & Data</h3>
+          <h3>AI & Data</h3>
+        </div>
         <ul class="skill-tags">
           <li>Claude Code / AI-Assisted Dev</li>
           <li>Python / R Pipelines</li>
@@ -517,11 +557,13 @@
           <li>BioSeq Platform</li>
         </ul>
       </div>
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
         </div>
-        <h3>Client Strategy</h3>
+          <h3>Client Strategy</h3>
+        </div>
         <ul class="skill-tags">
           <li>Product Positioning</li>
           <li>Client Relationship Building</li>
@@ -530,11 +572,13 @@
           <li>Business Development</li>
         </ul>
       </div>
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
         </div>
-        <h3>Science Communication</h3>
+          <h3>Science Communication</h3>
+        </div>
         <ul class="skill-tags">
           <li>Science-to-Marketing Translation</li>
           <li>Technical Writing</li>
@@ -543,11 +587,13 @@
           <li>Stakeholder Outreach</li>
         </ul>
       </div>
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg>
         </div>
-        <h3>Project Leadership</h3>
+          <h3>Project Leadership</h3>
+        </div>
         <ul class="skill-tags">
           <li>Team Mentoring</li>
           <li>Monday.com / PM</li>
@@ -556,11 +602,13 @@
           <li>Cross-Functional Collaboration</li>
         </ul>
       </div>
-      <div class="skill-group">
-        <div class="skill-icon" aria-hidden="true">
+      <div class="skill-row">
+        <div class="skill-head">
+          <div class="skill-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg>
         </div>
-        <h3>Laboratory Techniques</h3>
+          <h3>Laboratory Techniques</h3>
+        </div>
         <ul class="skill-tags">
           <li><em>C. elegans</em></li>
           <li>High-Throughput Screening</li>
@@ -579,8 +627,9 @@
       <h2>Have a hard problem? <em>Let's solve it.</em></h2>
       <p>Whether it's product positioning, mechanism of action, or AI-driven ingredient discovery — let's talk.</p>
       <div class="cta-actions">
-        <a href="https://www.linkedin.com/in/adnanqureshi28/" target="_blank" rel="noopener" class="btn btn-primary magnetic">Connect on LinkedIn →</a>
-        <a href="https://orcid.org/0000-0003-3091-9555" target="_blank" rel="noopener" class="btn btn-ghost magnetic">View ORCID</a>
+        <!-- Address is entity-encoded to deter naive scrapers; browsers decode it normally. -->
+        <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#110;&#97;&#110;&#113;&#117;&#114;&#101;&#115;&#104;&#105;&#50;&#56;&#49;&#48;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" class="btn btn-primary magnetic">Email me →</a>
+        <a href="https://www.linkedin.com/in/adnanqureshi28/" target="_blank" rel="noopener" class="btn btn-ghost magnetic">Connect on LinkedIn</a>
       </div>
     </div>
   </section>
