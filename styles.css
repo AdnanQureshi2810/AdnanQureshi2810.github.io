@@ -808,6 +808,12 @@ main { position: relative; z-index: 1; overflow-x: clip; }
   margin-left: 8px; vertical-align: middle;
 }
 .pub-footer { text-align: center; margin-top: 32px; }
+.pub-note {
+  font-size: 13px; color: var(--text-dim); line-height: 1.6;
+  max-width: 560px; margin: 0 auto 22px;
+}
+.pub-note a { color: var(--accent-1); text-decoration: none; }
+.pub-note a:hover { text-decoration: underline; }
 
 /* ── Experience / Timeline ────────────────────────────────────── */
 .timeline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }

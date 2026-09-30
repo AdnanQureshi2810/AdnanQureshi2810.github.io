@@ -254,7 +254,7 @@ def get_journal_cover(venue: str) -> tuple[str, str, str]:
     return ("generic", "Article", "")
 
 
-def build_metrics_html(stats: dict | None, pub_count: int = 8) -> str:
+def build_metrics_html(stats: dict | None, pub_count: int = 8, pub_label: str = "Publications") -> str:
     """Build the metrics strip HTML: three labelled groups of two numbers.
 
     Note: each metric-number's static content is its FINAL value (with suffix)
@@ -264,7 +264,7 @@ def build_metrics_html(stats: dict | None, pub_count: int = 8) -> str:
     citations = stats.get("citations", 0) if stats else 0
     groups = [
         ("Industry", [(55, "+", "Client Projects"), (13, "", "Novel Assays")]),
-        ("Academic", [(pub_count, "", "Publications"), (citations, "", "Citations")]),
+        ("Academic", [(pub_count, "", pub_label), (citations, "", "Scholar citations")]),
         ("Federal", [(2, "", "NIH SBIRs (PI)"), (100, "+", "Ingredients Studied")]),
     ]
 
@@ -291,12 +291,55 @@ def build_metrics_html(stats: dict | None, pub_count: int = 8) -> str:
       </div>'''
 
 
-def build_publications_html(articles: list[dict]) -> str:
-    """Build the publications list HTML from Scholar data.
+def normalize_title(title: str) -> str:
+    """Lowercase a title and reduce it to alphanumeric words for matching."""
+    return " ".join(re.findall(r"[a-z0-9]+", (title or "").lower()))
 
-    Linked rows use a "stretched link": the title anchor's ::after covers the
-    whole row, so the entire row is clickable without nesting block content
-    inside an <a>.
+
+def titles_match(a: str, b: str) -> bool:
+    """True if two titles are the same paper.
+
+    Scholar sometimes truncates long titles, so a long-enough prefix of the
+    other title also counts as a match.
+    """
+    na, nb = normalize_title(a), normalize_title(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    shorter, longer = sorted((na, nb), key=len)
+    return len(shorter) >= 20 and longer.startswith(shorter)
+
+
+def merge_curated_publications(curated: list[dict], articles: list[dict]) -> list[dict]:
+    """Combine the hand-maintained peer-reviewed list with live Scholar data.
+
+    The curated list (data/peer_reviewed.json) decides WHICH papers appear;
+    Scholar supplies citation counts, author lists and its fuller venue string.
+    A DOI link is preferred over the Scholar link. Papers not (yet) on Scholar
+    are still listed from their curated fields.
+    """
+    merged = []
+    for paper in curated:
+        match = next((a for a in articles if titles_match(paper.get("title", ""), a.get("title", ""))), None) or {}
+        doi = (paper.get("doi") or "").strip().lower()
+        merged.append({
+            "title": paper.get("title", ""),
+            "year": paper.get("year", ""),
+            "venue": match.get("venue") or paper.get("venue", ""),
+            "authors": match.get("authors") or paper.get("authors", ""),
+            "citations": match.get("citations") or 0,
+            "link": f"https://doi.org/{doi}" if doi else match.get("link", ""),
+        })
+    merged.sort(key=lambda p: p.get("year") or "0", reverse=True)
+    return merged
+
+
+def build_publications_html(articles: list[dict]) -> str:
+    """Build the publications list HTML from Scholar data alone.
+
+    Fallback used when data/peer_reviewed.json is missing: shows the 8 most
+    recent Scholar entries, skipping theses and undated items.
     """
     # Filter out dissertations and articles without year
     SKIP_VENUES = ["university of texas", "dissertation", "thesis"]
@@ -322,10 +365,18 @@ def build_publications_html(articles: list[dict]) -> str:
     top_articles.sort(key=lambda x: x.get("year", "0"), reverse=True)
 
     # Take top 8 publications
-    top_articles = top_articles[:8]
+    return render_publications_html(top_articles[:8])
 
+
+def render_publications_html(pubs: list[dict]) -> str:
+    """Render publication rows, in the order given.
+
+    Linked rows use a "stretched link": the title anchor's ::after covers the
+    whole row, so the entire row is clickable without nesting block content
+    inside an <a>.
+    """
     items = []
-    for pub in top_articles:
+    for pub in pubs:
         authors_html = format_authors(pub.get("authors", ""))
         venue = pub.get("venue", "")
         year = escape(pub.get("year", ""), quote=False)
@@ -394,30 +445,38 @@ def build_html():
 
     # Load data
     scholar = load_json("scholar.json")
-    orcid = load_json("orcid.json")
+    curated = (load_json("peer_reviewed.json") or {}).get("papers", [])
 
     if scholar:
         stats = scholar.get("stats", {})
         articles = scholar.get("articles", [])
 
-        # Count real publications (filter same as pub list)
-        SKIP_VENUES = ["university of texas", "dissertation", "thesis"]
-        pub_count = len([a for a in articles if a.get("year") and
-                        not any(s in (a.get("venue") or "").lower() for s in SKIP_VENUES)])
+        if curated:
+            # Hand-maintained peer-reviewed list (matches Web of Science).
+            pub_count = len(curated)
+            pub_label = "Peer-reviewed papers"
+            pub_html = render_publications_html(merge_curated_publications(curated, articles))
+        else:
+            # Fallback: count real publications (filter same as pub list)
+            SKIP_VENUES = ["university of texas", "dissertation", "thesis"]
+            pub_count = len([a for a in articles if a.get("year") and
+                            not any(s in (a.get("venue") or "").lower() for s in SKIP_VENUES)])
+            pub_label = "Publications"
+            pub_html = build_publications_html(articles)
 
         # Replace metrics
+        metrics_html = build_metrics_html(stats, pub_count, pub_label)
         html = re.sub(
             r'<!--METRICS_START-->.*?<!--METRICS_END-->',
-            f'<!--METRICS_START-->\n{build_metrics_html(stats, pub_count)}\n      <!--METRICS_END-->',
+            lambda _: f'<!--METRICS_START-->\n{metrics_html}\n      <!--METRICS_END-->',
             html,
             flags=re.DOTALL,
         )
 
         # Replace publications
-        pub_html = build_publications_html(articles)
         html = re.sub(
             r'<!--PUBS_START-->.*?<!--PUBS_END-->',
-            f'<!--PUBS_START-->\n{pub_html}\n      <!--PUBS_END-->',
+            lambda _: f'<!--PUBS_START-->\n{pub_html}\n      <!--PUBS_END-->',
             html,
             flags=re.DOTALL,
         )

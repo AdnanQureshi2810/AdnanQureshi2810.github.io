@@ -82,6 +82,46 @@ def test_generic_cover_uses_article_label() -> None:
     assert build.get_journal_cover("Unknown Proceedings") == ("generic", "Article", "")
 
 
+# ── Curated peer-reviewed list ─────────────────────────────────
+
+
+def test_curated_papers_take_citations_and_authors_from_scholar() -> None:
+    curated = [{"title": "A Study of Worms", "year": "2021", "venue": "Biology Open", "doi": "10.1242/BIO.1"}]
+    scholar = [make_article(title="A study of worms", citations=42, authors="X Li, MA Qureshi")]
+    pubs = build.merge_curated_publications(curated, scholar)
+    assert len(pubs) == 1
+    assert pubs[0]["citations"] == 42
+    assert pubs[0]["authors"] == "X Li, MA Qureshi"
+    assert pubs[0]["venue"] == "Biology Open 10 (5), 2021"  # Scholar's fuller venue string
+    assert pubs[0]["link"] == "https://doi.org/10.1242/bio.1"  # DOI beats the Scholar link
+
+
+def test_curated_paper_missing_from_scholar_is_still_listed() -> None:
+    curated = [{"title": "Brand new paper", "year": "2026", "venue": "Nature Aging", "doi": "10.1/x"}]
+    pubs = build.merge_curated_publications(curated, [make_article()])
+    assert pubs == [{
+        "title": "Brand new paper", "year": "2026", "venue": "Nature Aging",
+        "authors": "", "citations": 0, "link": "https://doi.org/10.1/x",
+    }]
+
+
+def test_title_matching_ignores_case_punctuation_and_truncation() -> None:
+    curated = [{"title": "The mitochondrial unfolded protein response: Signaling from the powerhouse", "year": "2017"}]
+    scholar = [make_article(title="The mitochondrial unfolded protein response signaling from the", citations=179)]
+    assert build.merge_curated_publications(curated, scholar)[0]["citations"] == 179
+
+
+def test_curated_papers_sorted_newest_first() -> None:
+    curated = [{"title": "Old", "year": "2017"}, {"title": "New", "year": "2026"}, {"title": "Mid", "year": "2021"}]
+    assert [p["title"] for p in build.merge_curated_publications(curated, [])] == ["New", "Mid", "Old"]
+
+
+def test_curated_list_is_not_truncated_to_eight() -> None:
+    curated = [{"title": f"Paper {i}", "year": str(2000 + i)} for i in range(10)]
+    html = build.render_publications_html(build.merge_curated_publications(curated, []))
+    assert html.count("<li ") == 10
+
+
 # ── Metrics ────────────────────────────────────────────────────
 
 
@@ -94,3 +134,9 @@ def test_metrics_strip_has_three_groups_with_live_numbers() -> None:
     assert 'data-target="9">9<' in html
     # Counter JS depends on these hooks.
     assert html.count('class="metric-number"') == 6
+
+
+def test_metrics_labels_name_their_sources() -> None:
+    html = build.build_metrics_html({"citations": 275}, pub_count=6, pub_label="Peer-reviewed papers")
+    assert '<span class="metric-label">Peer-reviewed papers</span>' in html
+    assert '<span class="metric-label">Scholar citations</span>' in html

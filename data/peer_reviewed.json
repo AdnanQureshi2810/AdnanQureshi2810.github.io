@@ -1,0 +1,41 @@
+{
+  "_about": "Peer-reviewed papers shown on the site and counted in the 'Peer-reviewed papers' metric. Matches Web of Science ResearcherID PXY-7275-2026 (6 Core Collection publications, verified 2026-09-30). To add a paper: append an entry with title, year, venue and DOI. Citation counts, author lists and venue details are filled in from Google Scholar by build.py.",
+  "papers": [
+    {
+      "title": "Supplementation with bovine thymus extract improves survival, motility and stress resistance in C. elegans",
+      "year": "2026",
+      "venue": "Experimental Gerontology",
+      "doi": "10.1016/j.exger.2026.113180"
+    },
+    {
+      "title": "Herbal terpenoids activate autophagy and mitophagy through modulation of bioenergetics and protect from metabolic stress, sarcopenia and epigenetic aging",
+      "year": "2025",
+      "venue": "Nature Aging",
+      "doi": "10.1038/s43587-025-00957-4"
+    },
+    {
+      "title": "On the offense and defense: mitochondrial recovery programs amidst targeted pathogenic assault",
+      "year": "2022",
+      "venue": "The FEBS Journal",
+      "doi": "10.1111/febs.16126"
+    },
+    {
+      "title": "A nematode-derived, mitochondrial stress signaling-regulated peptide exhibits broad antibacterial activity",
+      "year": "2021",
+      "venue": "Biology Open",
+      "doi": "10.1242/bio.058613"
+    },
+    {
+      "title": "A pathogen branched-chain amino acid catabolic pathway subverts host survival by impairing energy metabolism and the mitochondrial UPR",
+      "year": "2020",
+      "venue": "PLOS Pathogens",
+      "doi": "10.1371/journal.ppat.1008918"
+    },
+    {
+      "title": "The mitochondrial unfolded protein response: Signaling from the powerhouse",
+      "year": "2017",
+      "venue": "Journal of Biological Chemistry",
+      "doi": "10.1074/jbc.r117.791061"
+    }
+  ]
+}
