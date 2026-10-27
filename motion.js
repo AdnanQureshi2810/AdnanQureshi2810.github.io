@@ -92,15 +92,21 @@
       const bottom = bottomEdge.y + bottomEdge.h + 60;
       const R = rng(19);
 
+      // Genes go only where they can be seen: the cards' videos and the
+      // numbers strip would hide anything placed under them.
+      const blocks = strip ? [...cards, bottomEdge] : cards;
+      const covered = p => blocks.some(b => p.x > b.x - 8 && p.x < b.x + b.w + 8 && p.y > b.y - 8 && p.y < b.y + b.h + 8);
+      const visibleArea = Math.max(1, s.W * (bottom - top) - blocks.reduce((a, b) => a + b.w * b.h, 0));
       const nodes = [];
-      const target = clamp(Math.round((s.W * (bottom - top)) / 5200), 60, 260);
-      const minGap2 = 26 * 26;
-      for (let tries = 0; nodes.length < target && tries < target * 30; tries++) {
-        const p = { x: R() * s.W, y: top + R() * (bottom - top), glow: 0, port: false };
-        if (nodes.some(q => (q.x - p.x) ** 2 + (q.y - p.y) ** 2 < minGap2)) continue;
+      const target = clamp(Math.round(visibleArea / 3600), 80, 320);
+      const minGap2 = 22 * 22;
+      for (let tries = 0; nodes.length < target && tries < target * 40; tries++) {
+        const x = R() * s.W, y = top + R() * (bottom - top);
+        const p = { x, y, bx: x, by: y, amp: 2 + R() * 4, ph: R() * TAU, sp: 0.35 + R() * 0.5, glow: 0, port: false };
+        if (covered(p) || nodes.some(q => (q.x - p.x) ** 2 + (q.y - p.y) ** 2 < minGap2)) continue;
         nodes.push(p);
       }
-      const port = (x, y) => { const p = { x, y, glow: 0, port: true }; nodes.push(p); return p; };
+      const port = (x, y) => { const p = { x, y, bx: x, by: y, amp: 0, glow: 0, port: true }; nodes.push(p); return p; };
       const cardPorts = cards.map(c => ({
         top: port(c.x + c.w / 2, c.y),
         bottom: port(c.x + c.w / 2, c.y + c.h),
@@ -168,7 +174,7 @@
     randomWalk() {
       const start = (Math.random() * this.nodes.length) | 0;
       const path = [start];
-      for (let k = 0; k < 6; k++) {
+      for (let k = 0; k < 8; k++) {
         const opts = this.adj[path[path.length - 1]].filter(v => !path.includes(v));
         if (!opts.length) break;
         path.push(opts[(Math.random() * opts.length) | 0]);
@@ -177,23 +183,32 @@
     },
 
     draw(s, dt) {
-      const { ctx } = s;
+      const { ctx, t } = s;
       const { nodes, edges } = this;
       if (!nodes.length) return;
 
-      // Spawn signals: along routes (more from the hovered card) and short random walks.
-      this.spawn -= dt;
-      if (dt && this.spawn <= 0) {
-        this.spawn = this.active >= 0 ? 0.16 : 0.42;
-        const own = this.routes.filter(r => r.card === this.active);
-        if (own.length && Math.random() < 0.8) this.launch(own[(Math.random() * own.length) | 0].path, 1);
-        else if (this.routes.length && Math.random() < 0.5) this.launch(this.routes[(Math.random() * this.routes.length) | 0].path, 0.85);
-        else this.launch(this.randomWalk(), 0.5);
+      // Gentle drift so the mesh itself moves; ports stay pinned to the cards.
+      for (const nd of nodes) {
+        if (nd.amp) {
+          nd.x = nd.bx + Math.sin(t * nd.sp + nd.ph) * nd.amp;
+          nd.y = nd.by + Math.cos(t * nd.sp * 0.8 + nd.ph) * nd.amp;
+        }
+        nd.glow = Math.max(0, nd.glow - dt * 1.2);
       }
 
-      // Base mesh.
+      // Spawn signals: along routes (more from the hovered card) and random walks.
+      this.spawn -= dt;
+      if (dt && this.spawn <= 0) {
+        this.spawn = this.active >= 0 ? 0.1 : 0.2;
+        const own = this.routes.filter(r => r.card === this.active);
+        if (own.length && Math.random() < 0.8) this.launch(own[(Math.random() * own.length) | 0].path, 1);
+        else if (this.routes.length && Math.random() < 0.55) this.launch(this.routes[(Math.random() * this.routes.length) | 0].path, 0.9);
+        else this.launch(this.randomWalk(), 0.65);
+      }
+
+      // Base mesh in a single path.
       ctx.lineWidth = 1;
-      ctx.strokeStyle = rgba(VIOLET, 0.09);
+      ctx.strokeStyle = rgba(VIOLET, 0.1);
       ctx.beginPath();
       for (const [i, j] of edges) { ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); }
       ctx.stroke();
@@ -203,7 +218,7 @@
       this.highlight = dt ? clamp(this.highlight + (this.active >= 0 ? dt * 3 : -dt * 2)) : this.highlight;
       const lit = reduceMotion ? this.routeEdges.flatMap(set => [...set]) : this.hlCard >= 0 && this.highlight > 0 ? [...this.routeEdges[this.hlCard]] : [];
       if (lit.length) {
-        ctx.strokeStyle = rgba(VIOLET, reduceMotion ? 0.22 : 0.32 * this.highlight);
+        ctx.strokeStyle = rgba(VIOLET, reduceMotion ? 0.22 : 0.34 * this.highlight);
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         for (const key of lit) {
@@ -213,8 +228,8 @@
         ctx.stroke();
       }
 
-      // Signals with a short fading tail.
-      const SPEED = 170, TAIL = 46;
+      // Signals with a short fading tail and a soft halo (shadowBlur is slow).
+      const SPEED = 190, TAIL = 54;
       for (let p = this.pulses.length - 1; p >= 0; p--) {
         const q = this.pulses[p];
         q.d += SPEED * dt;
@@ -231,31 +246,39 @@
         const head = along(q.d), tail = along(q.d - TAIL);
         const grad = ctx.createLinearGradient(tail[0], tail[1], head[0], head[1]);
         grad.addColorStop(0, rgba(VIOLET, 0));
-        grad.addColorStop(1, rgba(VIOLET, 0.7 * q.bright));
+        grad.addColorStop(1, rgba(VIOLET, 0.75 * q.bright));
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.6;
+        ctx.lineWidth = 1.7;
         ctx.beginPath();
         ctx.moveTo(tail[0], tail[1]);
         for (let k = 1; k < q.pts.length; k++) if (q.cum[k] > q.d - TAIL && q.cum[k] < q.d) ctx.lineTo(q.pts[k].x, q.pts[k].y);
         ctx.lineTo(head[0], head[1]);
         ctx.stroke();
         if (q.d <= total) {
-          ctx.fillStyle = rgba([237, 237, 242], 0.9 * q.bright);
-          ctx.shadowColor = rgba(VIOLET, q.bright);
-          ctx.shadowBlur = 10;
+          ctx.fillStyle = rgba(VIOLET, 0.22 * q.bright);
+          ctx.beginPath(); ctx.arc(head[0], head[1], 5.5, 0, TAU); ctx.fill();
+          ctx.fillStyle = rgba([237, 237, 242], 0.95 * q.bright);
           ctx.beginPath(); ctx.arc(head[0], head[1], 1.9, 0, TAU); ctx.fill();
-          ctx.shadowBlur = 0;
         }
       }
 
-      // Nodes: genes are small dots, ports are larger and glow when signals arrive.
+      // Resting genes in one batch; ports and recently lit genes on top with a halo.
+      ctx.fillStyle = rgba(VIOLET, 0.34);
+      ctx.beginPath();
       for (const nd of nodes) {
-        nd.glow = Math.max(0, nd.glow - dt * 1.4);
-        const r = nd.port ? 2.6 : 1.5;
-        ctx.fillStyle = rgba(VIOLET, (nd.port ? 0.45 : 0.28) + 0.7 * nd.glow);
-        if (nd.glow > 0.05) { ctx.shadowColor = rgba(VIOLET, nd.glow); ctx.shadowBlur = 12 * nd.glow; }
-        ctx.beginPath(); ctx.arc(nd.x, nd.y, r + nd.glow * 1.2, 0, TAU); ctx.fill();
-        ctx.shadowBlur = 0;
+        if (nd.port || nd.glow > 0.05) continue;
+        ctx.moveTo(nd.x + 1.6, nd.y);
+        ctx.arc(nd.x, nd.y, 1.6, 0, TAU);
+      }
+      ctx.fill();
+      for (const nd of nodes) {
+        if (!nd.port && nd.glow <= 0.05) continue;
+        if (nd.glow > 0.05) {
+          ctx.fillStyle = rgba(VIOLET, 0.2 * nd.glow);
+          ctx.beginPath(); ctx.arc(nd.x, nd.y, 4 + 6 * nd.glow, 0, TAU); ctx.fill();
+        }
+        ctx.fillStyle = rgba(VIOLET, (nd.port ? 0.5 : 0.34) + 0.6 * nd.glow);
+        ctx.beginPath(); ctx.arc(nd.x, nd.y, (nd.port ? 2.6 : 1.6) + nd.glow * 1.2, 0, TAU); ctx.fill();
       }
     },
   };
@@ -424,11 +447,13 @@
       // Membranes as textbook double lines: a wide stroke with a dark core.
       ctx.lineJoin = 'round';
       const membrane = (path, strength, glow) => {
-        if (glow) { ctx.shadowColor = rgba(VIOLET, 0.45); ctx.shadowBlur = 16; }
+        if (glow) {                                             // soft outer glow from wide, faint strokes
+          ctx.lineWidth = 14; ctx.strokeStyle = rgba(VIOLET, 0.05); ctx.stroke(path);
+          ctx.lineWidth = 8; ctx.strokeStyle = rgba(VIOLET, 0.07); ctx.stroke(path);
+        }
         ctx.lineWidth = 4.4;
         ctx.strokeStyle = rgba(VIOLET, 0.36 * strength);
         ctx.stroke(path);
-        ctx.shadowBlur = 0;
         ctx.lineWidth = 1.7;
         ctx.strokeStyle = 'rgba(26,21,44,0.92)';
         ctx.stroke(path);
@@ -493,18 +518,18 @@
         if (p.life >= 1) { this.atp.splice(i, 1); continue; }
         p.x += p.vx * dt; p.y += p.vy * dt;
         const a = Math.sin(Math.PI * p.life) * 0.55;
+        ctx.fillStyle = rgba(VIOLET, a * 0.35);
+        ctx.beginPath(); ctx.arc(p.x, p.y, 4.5, 0, TAU); ctx.fill();
         ctx.fillStyle = rgba([237, 237, 242], a);
-        ctx.shadowColor = rgba(VIOLET, a); ctx.shadowBlur = 8;
         ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, TAU); ctx.fill();
       }
-      ctx.shadowBlur = 0;
     },
   };
 
   // ── Wire up ────────────────────────────────────────────────
   const defs = [
-    ['research-net', researchNet, {}],
-    ['cta-mito', ctaMito, {}],
+    ['research-net', researchNet, { maxDpr: 1.5 }],
+    ['cta-mito', ctaMito, { maxDpr: 1.5 }],
   ];
   for (const [id, api, opts] of defs) {
     const canvas = document.getElementById(id);
