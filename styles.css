@@ -495,13 +495,28 @@ main { position: relative; z-index: 1; overflow-x: clip; }
 .r-card:hover { --lift: -4px; border-color: rgba(var(--accent-1-rgb),.35); box-shadow: 0 24px 60px rgba(var(--accent-1-rgb),.15); }
 .r-card .icon {
   position: relative; z-index: 1;
-  width: 48px; height: 48px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(var(--accent-1-rgb),.18), rgba(var(--accent-2-rgb),.08));
-  border: 1px solid var(--border-2);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--accent-1);
-  margin-bottom: 24px;
+  width: 52px; height: 52px; margin-bottom: 20px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.6));   /* stays legible over the card videos */
 }
+
+/* Custom science line icons: light strokes with one violet accent. Stroked
+   shapes have pathLength="1", so they draw themselves in when their card or
+   row reveals; accents and dots pop in after the lines. */
+.ic { display: block; color: rgba(237,237,242,.88); overflow: visible; }
+.ic .a { fill: var(--accent-1); stroke: none; }
+.ic .as { stroke: var(--accent-1); }
+.ic .d { fill: currentColor; stroke: none; opacity: .55; }
+.ic .f { opacity: .4; }
+.ic .a, .ic .d { transform-box: fill-box; transform-origin: center; }
+.fade-in.visible .ic [pathLength] {
+  stroke-dasharray: 1;
+  animation: icDraw 1.4s cubic-bezier(.65,0,.35,1) calc(var(--stagger, 0s) + .25s) backwards;
+}
+.fade-in.visible .ic .a, .fade-in.visible .ic .d {
+  animation: icPop .5s cubic-bezier(.34,1.56,.64,1) calc(var(--stagger, 0s) + 1.15s) backwards;
+}
+@keyframes icDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes icPop { from { opacity: 0; transform: scale(.3); } }
 .r-card h3 { position: relative; z-index: 1; font-size: 22px; font-weight: 700; letter-spacing: -.015em; line-height: 1.2; margin-bottom: 12px; }
 .r-card p { position: relative; z-index: 1; font-size: 14px; color: var(--text-dim); line-height: 1.65; }
 /* Scrim between video and text: light at the icon, dense behind the copy. */
@@ -880,19 +895,9 @@ main { position: relative; z-index: 1; overflow-x: clip; }
 }
 .skill-row:last-child { border-bottom: none; }
 .skill-head { display: flex; align-items: center; gap: 16px; }
-.skill-icon {
-  flex-shrink: 0;
-  width: 40px; height: 40px; border-radius: 11px;
-  background: linear-gradient(135deg, rgba(var(--accent-1-rgb),.18), rgba(var(--accent-2-rgb),.08));
-  border: 1px solid var(--border-2);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--accent-1);
-  transition: box-shadow .3s, border-color .3s, transform .3s cubic-bezier(.16,1,.3,1);
-}
-.skill-row:hover .skill-icon {
-  border-color: rgba(var(--accent-1-rgb),.5); transform: rotate(-6deg) scale(1.06);
-  box-shadow: 0 0 24px rgba(var(--accent-1-rgb),.3);
-}
+.skill-icon { flex-shrink: 0; width: 40px; height: 40px; }
+.skill-icon .ic .a { transition: filter .3s; }
+.skill-row:hover .skill-icon .ic .a { filter: drop-shadow(0 0 5px rgba(var(--accent-1-rgb),.9)); }
 .skill-row h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
 .skill-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .skill-tags li { transition: color .2s, border-color .2s; }
