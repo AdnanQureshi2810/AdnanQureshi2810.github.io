@@ -230,9 +230,11 @@ main { position: relative; z-index: 1; overflow-x: clip; }
   position: absolute; inset: -64px calc(50% - 50vw) 0; z-index: 0;
   overflow: hidden; pointer-events: none;
 }
-/* Live dark-field microscope view of C. elegans (motion.js); the tint and
-   fade layers above it give it the same violet treatment the video had. */
-.hero-scope { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: grayscale(1) brightness(.95) contrast(1.45);
+}
 .hero-tint {
   position: absolute; inset: 0;
   background: rgba(99,102,241,.48);
@@ -502,6 +504,21 @@ main { position: relative; z-index: 1; overflow-x: clip; }
 }
 .r-card h3 { position: relative; z-index: 1; font-size: 22px; font-weight: 700; letter-spacing: -.015em; line-height: 1.2; margin-bottom: 12px; }
 .r-card p { position: relative; z-index: 1; font-size: 14px; color: var(--text-dim); line-height: 1.65; }
+/* Scrim between video and text: light at the icon, dense behind the copy. */
+.r-card.with-video::before {
+  content: ""; position: absolute; inset: 0; border-radius: 20px; pointer-events: none; z-index: 0;
+  background: linear-gradient(180deg, rgba(10,9,14,.35) 0%, rgba(10,9,14,.78) 38%, rgba(10,9,14,.9) 62%, rgba(10,9,14,.95) 100%);
+}
+.r-card.with-video p { color: rgba(237,237,242,.84); }
+.r-card.with-video h3, .r-card.with-video p { text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+.r-card-video {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+  filter: saturate(1.15) brightness(.6) contrast(1.15);
+  opacity: .68;
+  border-radius: 20px;
+}
+
 /* Gene/pathway network behind the whole Research section (motion.js). It
    bleeds to the viewport edges; main's overflow-x: clip contains it. */
 .research-net {

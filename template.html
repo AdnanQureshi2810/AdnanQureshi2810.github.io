@@ -106,7 +106,9 @@
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true">
-      <canvas class="hero-scope" id="hero-scope"></canvas>
+      <video class="hero-video" muted loop playsinline preload="none" poster="assets/media/powder-hero-poster.jpg" data-autoplay>
+        <source src="assets/media/powder-hero.mp4" type="video/mp4">
+      </video>
       <div class="hero-tint"></div>
       <div class="hero-fade"></div>
     </div>
@@ -262,21 +264,30 @@
     <div class="section-eyebrow">The work</div>
     <h2 class="section-h2">Three areas of <em>active inquiry</em>.</h2>
     <div class="research-grid">
-      <article class="r-card">
+      <article class="r-card with-video">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/dried-flowers-poster.jpg" data-autoplay aria-hidden="true">
+          <source src="assets/media/dried-flowers.mp4" type="video/mp4">
+        </video>
         <div class="icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 2.04 2 4.04 2 8.04A7 7 0 0 1 11 20Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
         </div>
         <h3>Nutraceutical Discovery</h3>
         <p>Preclinical screening of botanicals, biotics, extracts, and functional ingredients. The job: find a defensible biological story — the one that earns a product its position on the shelf.</p>
       </article>
-      <article class="r-card">
+      <article class="r-card with-video">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/particles-poster.jpg" data-autoplay aria-hidden="true">
+          <source src="assets/media/particles.mp4" type="video/mp4">
+        </video>
         <div class="icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
         </div>
         <h3>AI-Powered Discovery Pipeline</h3>
         <p><strong>BioSeq</strong> is the in-house pipeline I built — it turns <em>C. elegans</em> transcriptomic data into human-relevant outputs: health domains, candidate genes, pathways, and mechanism of action. Ingredient screen to decision support, compressed.</p>
       </article>
-      <article class="r-card">
+      <article class="r-card with-video">
+        <video class="r-card-video" muted loop playsinline preload="none" poster="assets/media/cellular-poster.jpg" data-autoplay data-playback="1.4" aria-hidden="true">
+          <source src="assets/media/cellular.mp4" type="video/mp4">
+        </video>
         <div class="icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></svg>
         </div>
@@ -652,7 +663,7 @@
         </div>
       </div>
       <div class="footer-attributions">
-        <em>C. elegans</em> DAPI image: HoPo, CC BY-SA 3.0
+        <em>C. elegans</em> DAPI image: HoPo, CC BY-SA 3.0 · Hero video: Mixkit Free License · Botanical accent: Pexels License · Particles accent: Pexels License · Cellular accent: Mixkit Free License
       </div>
     </div>
   </footer>

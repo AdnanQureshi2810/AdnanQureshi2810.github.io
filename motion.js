@@ -1,11 +1,10 @@
 /* ============================================
    Personal Website v4 — Motion graphics
-   Hero microscope worms · Research gene network · Contact mitochondrion
+   Research gene network · Contact mitochondrion
    ============================================ */
 
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ── Helpers ────────────────────────────────────────────────
   const TAU = Math.PI * 2;
@@ -14,20 +13,12 @@
   const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
   const VIOLET = [167, 139, 250];
   const VIOLET_DEEP = [139, 92, 246];
-  const FIELD = [226, 226, 236];              // dark-field highlights; the hero tint turns these violet
   // Seeded PRNG so layouts are stable between visits.
   const rng = seed => () => {
     seed = (seed + 0x6D2B79F5) | 0;
     let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-  // Smallest signed angle from `from` to `to`.
-  const angleTo = (from, to) => {
-    let d = (to - from) % TAU;
-    if (d > Math.PI) d -= TAU;
-    if (d < -Math.PI) d += TAU;
-    return d;
   };
 
   // ── Scene runner ───────────────────────────────────────────
@@ -69,175 +60,7 @@
     requestAnimationFrame(tick);
   }
 
-  // ── 1. Hero: dark-field microscope view of C. elegans ──────
-  // Each worm lays down a sinuous track with its head and the body follows
-  // that track, the way C. elegans crawls on agar. Worms turn away from the
-  // cursor, a nod to the touch-avoidance response.
-  const AVOID_RADIUS = 170;
-  const bodyWidth = u => (u < 0.06 ? 0.2 + 0.8 * Math.sqrt(u / 0.06)       // rounded nose
-    : u > 0.74 ? Math.pow(1 - (u - 0.74) / 0.26, 0.9)                        // whip-like tail
-      : 1);
-
-  function stepWorm(w, dt, W, H, ptr) {
-    w.phase += w.omega * dt * w.boost;
-    w.drift = clamp(w.drift + (Math.random() - 0.5) * 0.9 * dt, -0.22, 0.22);
-    let steer = w.drift;
-    // Turn back toward the field near the edges.
-    const mx = W * 0.06, my = H * 0.1;
-    if (w.hx < mx || w.hx > W - mx || w.hy < my || w.hy > H - my) {
-      steer += angleTo(w.heading, Math.atan2(H / 2 - w.hy, W / 2 - w.hx)) * 0.9;
-    }
-    w.boost += (1 - w.boost) * Math.min(1, dt * 1.5);
-    if (ptr) {
-      const dx = w.hx - ptr.x, dy = w.hy - ptr.y, d = Math.hypot(dx, dy);
-      const reach = AVOID_RADIUS + w.L * 0.15;
-      if (d < reach) {
-        const k = 1 - d / reach;
-        steer += angleTo(w.heading, Math.atan2(dy, dx)) * 3.2 * k;
-        w.boost = Math.max(w.boost, 1 + 1.4 * k);
-      }
-    }
-    w.heading += steer * dt;
-    const dir = w.heading + w.amp * Math.sin(w.phase);
-    const v = w.speed * w.boost * dt;
-    w.hx += Math.cos(dir) * v;
-    w.hy += Math.sin(dir) * v;
-    const last = w.trail[0];
-    if (!last || Math.hypot(w.hx - last.x, w.hy - last.y) >= w.ds) {
-      w.trail.unshift({ x: w.hx, y: w.hy });
-      const keep = Math.ceil(w.L / w.ds) + 4;
-      if (w.trail.length > keep) w.trail.length = keep;
-    }
-  }
-
-  function drawWorm(ctx, w) {
-    const N = 46;
-    const span = w.L / w.ds;
-    const pts = [];
-    for (let k = 0; k < N; k++) {
-      const f = (k / (N - 1)) * span;
-      const i = Math.floor(f), t = f - i;
-      const a = i === 0 ? { x: w.hx, y: w.hy } : w.trail[Math.min(i - 1, w.trail.length - 1)];
-      const b = w.trail[Math.min(i, w.trail.length - 1)];
-      pts.push({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t) });
-    }
-    const left = [], right = [], norms = [];
-    for (let k = 0; k < N; k++) {
-      const p0 = pts[Math.max(0, k - 1)], p1 = pts[Math.min(N - 1, k + 1)];
-      let tx = p1.x - p0.x, ty = p1.y - p0.y;
-      const len = Math.hypot(tx, ty) || 1;
-      tx /= len; ty /= len;
-      const nx = -ty, ny = tx;
-      const hw = w.half * bodyWidth(k / (N - 1));
-      norms.push([nx, ny, hw]);
-      left.push([pts[k].x + nx * hw, pts[k].y + ny * hw]);
-      right.push([pts[k].x - nx * hw, pts[k].y - ny * hw]);
-    }
-    const at = u => { const k = Math.round(u * (N - 1)); return [pts[k], norms[k]]; };
-
-    // Body: bright rim and faint interior, as in dark-field illumination.
-    ctx.beginPath();
-    ctx.moveTo(left[0][0], left[0][1]);
-    for (let k = 1; k < N; k++) ctx.lineTo(left[k][0], left[k][1]);
-    for (let k = N - 1; k >= 0; k--) ctx.lineTo(right[k][0], right[k][1]);
-    ctx.closePath();
-    ctx.fillStyle = rgba(FIELD, w.alpha * 0.1);
-    ctx.fill();
-    ctx.lineWidth = lerp(1.2, 0.8, w.depth);
-    ctx.strokeStyle = rgba(FIELD, w.alpha * 0.85);
-    ctx.stroke();
-
-    // Pharynx: lumen plus the metacorpus and terminal bulbs.
-    ctx.lineWidth = 0.8;
-    ctx.strokeStyle = rgba(FIELD, w.alpha * 0.45);
-    ctx.beginPath();
-    for (let k = 0; k <= Math.round(0.13 * (N - 1)); k++) (k ? ctx.lineTo : ctx.moveTo).call(ctx, pts[k].x, pts[k].y);
-    ctx.stroke();
-    for (const [u, scale] of [[0.055, 0.5], [0.12, 0.64]]) {
-      const [p, [, , hw]] = at(u);
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, Math.max(1, hw * scale), 0, TAU);
-      ctx.fillStyle = rgba(FIELD, w.alpha * 0.1);
-      ctx.fill();
-      ctx.strokeStyle = rgba(FIELD, w.alpha * 0.55);
-      ctx.stroke();
-    }
-
-    // Gut granules along the intestine.
-    ctx.fillStyle = rgba(FIELD, w.alpha * 0.35);
-    for (const [u, v, r] of w.granules) {
-      const [p, [nx, ny, hw]] = at(u);
-      ctx.beginPath();
-      ctx.arc(p.x + nx * hw * v, p.y + ny * hw * v, Math.max(0.5, r * w.half * 0.14), 0, TAU);
-      ctx.fill();
-    }
-  }
-
-  const heroScope = {
-    worms: [], specks: [], ptr: { x: -1e4, y: -1e4 },
-
-    init(canvas) {
-      const hero = canvas.closest('.hero');
-      if (!hero || !finePointer || reduceMotion) return;
-      hero.addEventListener('pointermove', e => {
-        const r = canvas.getBoundingClientRect();
-        this.ptr.x = e.clientX - r.left;
-        this.ptr.y = e.clientY - r.top;
-      }, { passive: true });
-      hero.addEventListener('pointerleave', () => { this.ptr.x = this.ptr.y = -1e4; });
-    },
-
-    layout(s) {
-      const R = rng(5);
-      const { W, H } = s;
-      const count = W < 700 ? 3 : 5;
-      const base = Math.min(H, 1000);
-      // Faint specks of the bacterial lawn the worms crawl on.
-      this.specks = Array.from({ length: Math.round((W * H) / 9000) }, () => ({
-        x: R() * W, y: R() * H, a: 0.04 + R() * 0.12, r: R() < 0.85 ? 0.8 : 1.4, ph: R() * TAU,
-      }));
-      this.worms = Array.from({ length: count }, (_, i) => {
-        const depth = i / (count - 1);                 // 0 = in focus and near, 1 = far
-        const L = base * lerp(0.42, 0.2, depth) * (0.9 + R() * 0.2);
-        const w = {
-          depth, L, half: L / 30, ds: 2.5,
-          speed: L * lerp(0.11, 0.08, depth),
-          amp: 0.55 + R() * 0.15, phase: R() * TAU, drift: 0, boost: 1,
-          heading: R() * TAU, hx: lerp(0.15, 0.85, R()) * W, hy: lerp(0.2, 0.8, R()) * H,
-          alpha: lerp(0.6, 0.25, depth), trail: [],
-          granules: Array.from({ length: 46 }, () => [0.16 + R() * 0.7, (R() * 2 - 1) * 0.55, 0.5 + R() * 0.9]),
-        };
-        w.omega = (TAU * w.speed) / (w.L * 0.62);       // track wavelength ≈ 0.62 body lengths
-        // Run the worm forward off-screen so it starts fully formed.
-        for (let k = 0; k < (L / w.speed + 1) * 30; k++) stepWorm(w, 1 / 30, W, H, null);
-        return w;
-      });
-      this.worms.sort((a, b) => b.depth - a.depth);   // draw far worms first
-    },
-
-    draw(s, dt) {
-      const { ctx, W, H, t } = s;
-      // Opaque dark field: the hero's multiply tint needs a dark base to sit on.
-      ctx.fillStyle = 'rgb(9,9,13)';
-      ctx.fillRect(0, 0, W, H);
-      const glow = ctx.createRadialGradient(W * 0.5, H * 0.45, 0, W * 0.5, H * 0.45, Math.max(W, H) * 0.6);
-      glow.addColorStop(0, rgba(FIELD, 0.05));
-      glow.addColorStop(1, rgba(FIELD, 0));
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, W, H);
-      for (const p of this.specks) {
-        ctx.fillStyle = rgba(FIELD, p.a);
-        ctx.fillRect(p.x + Math.sin(t * 0.3 + p.ph) * 1.5, p.y + Math.cos(t * 0.25 + p.ph) * 1.5, p.r, p.r);
-      }
-      const ptr = this.ptr.x > -1e3 ? this.ptr : null;
-      for (const w of this.worms) {
-        if (dt) stepWorm(w, dt, W, H, ptr);
-        drawWorm(ctx, w);
-      }
-    },
-  };
-
-  // ── 2. Research: one gene/pathway network under the section ─
+  // ── Research: one gene/pathway network under the section ─
   // Ports sit on the edges of each research card and on top of each metric
   // group; signals run card → card and card → its numbers. Hovering a card
   // lights its routes.
@@ -437,11 +260,21 @@
     },
   };
 
-  // ── 3. Contact: a mitochondrion powering the call to action ─
-  // Outer membrane, folded inner membrane (cristae), matrix granules, and
-  // ATP drifting up. Hovering a button briefly raises ATP output.
+  // ── Contact: a textbook mitochondrion behind the call to action ─
+  // Drawn the way biology textbooks show it: a smooth double-line outer
+  // membrane, an intermembrane space, and an inner membrane that folds into
+  // irregular cristae (different depths, widths, leans and swollen tips)
+  // around a matrix holding ribosomes, granules and circular mtDNA. ATP
+  // drifts up from the cristae; hovering a button raises the output.
+
+  // Rounded-capsule half-height at position u ∈ [-1, 1] along the long axis.
+  const capsule = u => Math.pow(Math.max(0, 1 - Math.pow(Math.abs(u), 2.4)), 1 / 2.4);
+  // Membrane half-height with a little low-frequency irregularity per side.
+  const memHalf = (m, u, side) => m.ry * capsule(u) *
+    (1 + 0.035 * Math.sin(u * 3.1 + m.n1 + side * 1.7) + 0.025 * Math.sin(u * 5.3 + m.n2 - side * 2.3));
+
   const ctaMito = {
-    atp: [], boost: 0, spawn: 0,
+    atp: [], boost: 0, spawn: 0, tips: [],
 
     init(canvas) {
       canvas.parentElement.querySelectorAll('.btn').forEach(btn => {
@@ -453,59 +286,183 @@
       const R = rng(31);
       const cw = s.W * 0.9;
       const ch = Math.min(s.H * 0.74, cw * 0.34);
-      this.geo = { cx: s.W / 2, cy: s.H * 0.52, cw, ch };
-      const folds = Math.max(6, Math.round(cw / 70));
-      this.folds = Array.from({ length: folds }, (_, i) => ({
-        f: (i + 0.5 + (R() - 0.5) * 0.35) / folds, depth: 0.42 + R() * 0.3, ph: R() * TAU, top: i % 2 === 0,
+      const cx = s.W / 2, cy = s.H * 0.52;
+      const gap = Math.max(5, ch * 0.065);                    // intermembrane space
+      const outer = { rx: cw / 2, ry: ch / 2, n1: R() * TAU, n2: R() * TAU };
+      const inner = { rx: cw / 2 - gap, ry: ch / 2 - gap, n1: R() * TAU, n2: R() * TAU };
+      this.geo = { cx, cy, cw, ch, outer, inner };
+
+      // Cristae alternate top and bottom across the middle of the organelle.
+      const span = inner.rx * 1.55;
+      const count = Math.max(5, Math.round(span / 52));
+      const spacing = span / count;
+      const baseY = (x, top) => {
+        const u = (x - cx) / inner.rx;
+        return top ? cy - memHalf(inner, u, 0) : cy + memHalf(inner, u, 1);
+      };
+      this.folds = Array.from({ length: count }, (_, i) => {
+        const top = i % 2 === 0;
+        const x = cx - span / 2 + spacing * (i + 0.5) + (R() - 0.5) * spacing * 0.3;
+        const u = (x - cx) / inner.rx;
+        const height = memHalf(inner, u, 0) + memHalf(inner, u, 1);
+        const depth = height * (0.34 + R() * 0.46);
+        return {
+          x, top, depth, y0: baseY(x, top),
+          hw: clamp(ch * (0.022 + R() * 0.026), 2.4, 8),
+          lean: (R() - 0.5) * 2 * ((spacing * 0.28) / depth),
+          bulge: R() < 0.4 ? 0.4 + R() * 0.7 : R() * 0.15,     // some cristae swell at the tip
+          wob: 0.8 + R() * 2.2, k: 0.8 + R() * 1.6, ph: R() * TAU,
+        };
+      });
+
+      // Matrix contents, placed only where no crista passes.
+      const inMatrix = (x, y, pad) => {
+        const u = (x - cx) / inner.rx;
+        if (Math.abs(u) > 0.92) return false;
+        if (y < cy - memHalf(inner, u, 0) + pad || y > cy + memHalf(inner, u, 1) - pad) return false;
+        return this.folds.every(f => {
+          const sAlong = f.top ? (y - f.y0) / f.depth : (f.y0 - y) / f.depth;
+          if (sAlong < -0.1 || sAlong > 1.2) return true;
+          const c = f.x + f.lean * clamp(sAlong) * f.depth;
+          return Math.abs(x - c) > f.hw * (1 + f.bulge) + f.wob + pad;
+        });
+      };
+      const place = (n, pad, make) => {
+        const out = [];
+        for (let tries = 0; out.length < n && tries < n * 60; tries++) {
+          const x = cx + (R() * 2 - 1) * inner.rx, y = cy + (R() * 2 - 1) * inner.ry;
+          if (inMatrix(x, y, pad)) out.push(make(x, y));
+        }
+        return out;
+      };
+      const scale = clamp(ch / 120, 0.6, 1.6);
+      this.ribosomes = place(Math.round(cw / 16), 4, (x, y) => ({ x, y, r: (0.7 + R() * 0.8) * scale, ph: R() * TAU }));
+      this.granules = place(Math.max(2, Math.round(cw / 220)), 8, (x, y) => ({ x, y, r: (2.2 + R() * 1.4) * scale }));
+      this.dna = place(Math.max(2, Math.round(cw / 300)), 12 * scale, (x, y) => ({
+        x, y, r: (5 + R() * 3) * scale, rot: R() * TAU, spin: (R() - 0.5) * 0.3,
+        bumps: Array.from({ length: 3 }, () => [1 + ((R() * 3) | 0), R() * 0.18, R() * TAU]),
       }));
-      this.granules = Array.from({ length: 36 }, () => ({ x: R(), y: R(), r: 0.8 + R() * 1.4 }));
       this.atp = [];
+    },
+
+    // One crista: down the entry wall, round the tip, back up the exit wall.
+    fold(pts, f, side, t) {
+      const dir = side === 0 ? 1 : -1;                         // top folds hang down, bottom folds rise
+      const entry = side === 0 ? -1 : 1;                       // tracing runs left→right on top, right→left below
+      const M = 14;
+      const wall = (sAlong, sign) => {
+        const sway = Math.sin(sAlong * Math.PI * f.k + f.ph + t * 0.6) * f.wob * sAlong;
+        const c = f.x + f.lean * sAlong * f.depth + sway;
+        const w = f.hw * (1 + f.bulge * sAlong * sAlong);
+        return [c + sign * w, f.y0 + dir * sAlong * f.depth];
+      };
+      pts.push([f.x + entry * f.hw, f.y0]);
+      for (let k = 1; k <= M; k++) pts.push(wall(k / M, entry));
+      const tip = wall(1, 0), tipR = f.hw * (1 + f.bulge);
+      for (let k = 1; k < 9; k++) {
+        const a = (Math.PI * k) / 9;
+        const ang = entry === -1 ? Math.PI - a : a;
+        pts.push([tip[0] + Math.cos(ang) * tipR, tip[1] + dir * Math.sin(ang) * tipR]);
+      }
+      for (let k = M; k >= 1; k--) pts.push(wall(k / M, -entry));
+      pts.push([f.x - entry * f.hw, f.y0]);
+      this.tips.push(tip);
+    },
+
+    // Closed outline of a membrane, with cristae spliced into the inner one.
+    trace(m, folds, t) {
+      const { cx, cy } = this.geo;
+      const N = 150;
+      const us = Array.from({ length: N + 1 }, (_, k) => -Math.cos((Math.PI * k) / N));  // denser at the ends
+      const pts = [];
+      const edge = side => {
+        const list = folds ? folds.filter(f => f.top === (side === 0)).sort((a, b) => (side === 0 ? a.x - b.x : b.x - a.x)) : [];
+        const order = side === 0 ? us : [...us].reverse();
+        let next = 0, skipTo = null;
+        for (const u of order) {
+          const x = cx + m.rx * u;
+          if (skipTo !== null) {
+            if (side === 0 ? x <= skipTo : x >= skipTo) continue;
+            skipTo = null;
+          }
+          const f = list[next];
+          if (f && (side === 0 ? x >= f.x - f.hw : x <= f.x + f.hw)) {
+            this.fold(pts, f, side, t);
+            skipTo = side === 0 ? f.x + f.hw : f.x - f.hw;
+            next++;
+            continue;
+          }
+          pts.push([x, side === 0 ? cy - memHalf(m, u, 0) : cy + memHalf(m, u, 1)]);
+        }
+      };
+      edge(0);
+      edge(1);
+      const path = new Path2D();
+      path.moveTo(pts[0][0], pts[0][1]);
+      for (let k = 1; k < pts.length; k++) path.lineTo(pts[k][0], pts[k][1]);
+      path.closePath();
+      return path;
     },
 
     draw(s, dt) {
       const { ctx, t } = s;
-      const { cx, cy, cw, ch } = this.geo;
-      const x0 = cx - cw / 2, y0 = cy - ch / 2;
-      const pad = Math.max(8, ch * 0.06);
-      const ix = x0 + pad, iy = y0 + pad, iw = cw - 2 * pad, ih = ch - 2 * pad;
-      const breathe = 1 + 0.012 * Math.sin(t * 0.9);
-      const tips = [];
+      const { cx, cy, cw, ch, outer, inner } = this.geo;
+      this.tips = [];
 
       ctx.save();
+      const breathe = 1 + 0.01 * Math.sin(t * 0.9);
       ctx.translate(cx, cy); ctx.scale(breathe, breathe); ctx.translate(-cx, -cy);
-      ctx.beginPath(); ctx.roundRect(x0, y0, cw, ch, ch / 2);
-      ctx.fillStyle = rgba(VIOLET_DEEP, 0.05); ctx.fill();
-      ctx.lineWidth = 1.6;
-      ctx.strokeStyle = rgba(VIOLET, 0.32);
-      ctx.shadowColor = rgba(VIOLET, 0.5); ctx.shadowBlur = 16;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
+      const outerPath = this.trace(outer, null, t);
+      const innerPath = this.trace(inner, this.folds, t);
 
-      ctx.save();
-      ctx.beginPath(); ctx.roundRect(ix, iy, iw, ih, ih / 2);
-      ctx.lineWidth = 1; ctx.strokeStyle = rgba(VIOLET, 0.14); ctx.stroke();
-      ctx.clip();
-      const r = Math.min(10, (iw / this.folds.length) * 0.22);
-      ctx.lineWidth = 1.2; ctx.strokeStyle = rgba(VIOLET, 0.22);
-      ctx.beginPath();
-      for (const fold of this.folds) {
-        const x = ix + iw * fold.f;
-        const wob = Math.sin(t * 0.8 + fold.ph) * 3;
-        if (fold.top) {
-          const yt = iy + ih * fold.depth + wob;
-          ctx.moveTo(x, iy - 2); ctx.lineTo(x, yt - r); ctx.arc(x + r, yt - r, r, Math.PI, 0, true); ctx.lineTo(x + 2 * r, iy - 2);
-          tips.push([x + r, yt]);
-        } else {
-          const yt = iy + ih * (1 - fold.depth) + wob;
-          ctx.moveTo(x, iy + ih + 2); ctx.lineTo(x, yt + r); ctx.arc(x + r, yt + r, r, Math.PI, 0, false); ctx.lineTo(x + 2 * r, iy + ih + 2);
-          tips.push([x + r, yt]);
-        }
+      // Intermembrane space, then the slightly brighter matrix.
+      ctx.fillStyle = rgba(VIOLET_DEEP, 0.07);
+      ctx.fill(outerPath);
+      ctx.fillStyle = rgba(VIOLET, 0.075);
+      ctx.fill(innerPath);
+
+      // Membranes as textbook double lines: a wide stroke with a dark core.
+      ctx.lineJoin = 'round';
+      const membrane = (path, strength, glow) => {
+        if (glow) { ctx.shadowColor = rgba(VIOLET, 0.45); ctx.shadowBlur = 16; }
+        ctx.lineWidth = 4.4;
+        ctx.strokeStyle = rgba(VIOLET, 0.36 * strength);
+        ctx.stroke(path);
+        ctx.shadowBlur = 0;
+        ctx.lineWidth = 1.7;
+        ctx.strokeStyle = 'rgba(26,21,44,0.92)';
+        ctx.stroke(path);
+      };
+      membrane(outerPath, 1, true);
+      membrane(innerPath, 0.85, false);
+
+      // Matrix contents.
+      ctx.fillStyle = rgba(VIOLET, 0.3);
+      for (const r of this.ribosomes) {
+        ctx.beginPath();
+        ctx.arc(r.x + Math.sin(t * 0.7 + r.ph) * 0.8, r.y + Math.cos(t * 0.6 + r.ph) * 0.8, r.r, 0, TAU);
+        ctx.fill();
       }
-      ctx.stroke();
-      ctx.fillStyle = rgba(VIOLET, 0.12);
-      for (const g of this.granules) { ctx.beginPath(); ctx.arc(ix + g.x * iw, iy + g.y * ih, g.r, 0, TAU); ctx.fill(); }
-      ctx.restore();   // inner-membrane clip
-      ctx.restore();   // breathing transform
+      ctx.fillStyle = rgba(VIOLET, 0.16);
+      ctx.strokeStyle = rgba(VIOLET, 0.3);
+      ctx.lineWidth = 1;
+      for (const g of this.granules) {
+        ctx.beginPath(); ctx.arc(g.x, g.y, g.r, 0, TAU); ctx.fill(); ctx.stroke();
+      }
+      ctx.strokeStyle = rgba(VIOLET, 0.34);
+      for (const d of this.dna) {
+        const rot = d.rot + t * d.spin;
+        ctx.beginPath();
+        for (let k = 0; k <= 28; k++) {
+          const a = (k / 28) * TAU;
+          let rr = d.r;
+          for (const [freq, amp, ph] of d.bumps) rr += d.r * amp * Math.sin(a * freq + ph);
+          const px = d.x + Math.cos(a + rot) * rr, py = d.y + Math.sin(a + rot) * rr;
+          k ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
 
       // Fade the drawing behind the headline and buttons so the text stays
       // clean: an elliptical eraser centred on the panel.
@@ -515,19 +472,19 @@
       ctx.translate(cx, cy);
       ctx.scale(1, ry / rx);
       const veil = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
-      veil.addColorStop(0, 'rgba(0,0,0,0.85)');
-      veil.addColorStop(0.6, 'rgba(0,0,0,0.6)');
+      veil.addColorStop(0, 'rgba(0,0,0,0.8)');
+      veil.addColorStop(0.6, 'rgba(0,0,0,0.55)');
       veil.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = veil;
       ctx.fillRect(-rx, -rx, rx * 2, rx * 2);
       ctx.restore();
 
-      // ATP rising from the cristae.
+      // ATP rising from the cristae tips.
       this.boost = Math.max(0, this.boost - dt * 0.6);
       this.spawn -= dt;
-      if (dt && this.spawn <= 0 && tips.length) {
+      if (dt && this.spawn <= 0 && this.tips.length) {
         this.spawn = this.boost > 0.05 ? 0.05 : 0.2;
-        const [tx, ty] = tips[(Math.random() * tips.length) | 0];
+        const [tx, ty] = this.tips[(Math.random() * this.tips.length) | 0];
         this.atp.push({ x: tx, y: ty, vx: (Math.random() - 0.5) * 10, vy: -(14 + Math.random() * 22), life: 0 });
       }
       for (let i = this.atp.length - 1; i >= 0; i--) {
@@ -546,7 +503,6 @@
 
   // ── Wire up ────────────────────────────────────────────────
   const defs = [
-    ['hero-scope', heroScope, { maxDpr: 1.5 }],
     ['research-net', researchNet, {}],
     ['cta-mito', ctaMito, {}],
   ];
